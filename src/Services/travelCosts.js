@@ -114,7 +114,7 @@ var allCountries = [{"country":"Afganistan","code":"af","currency":"eur","value"
           setTimeout(() => {
               //console.log(allCountries)
             resolve(allCountries);
-          }, 3000);
+          }, 100);
         });
       
         return promise;
