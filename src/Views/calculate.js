@@ -46,15 +46,29 @@ export default class Calculate extends Component {
   };
 
   handleChange = (event) => {
-    this.setState({ selectValue: event.target.value })
+    var cc = event.target;
+    var test = new  Promise(function(resolve, reject) {
+     
+      console.error("WWWWWW")
+      resolve("First promise done");
+    });
+    test
+    .then(result=>{
+      console.log("A co to jest?: ",result)})
+      .then(()=>{
+        this.setState({ selectValue: cc.value })
+      })
+      .then(()=>{
+        console.log("Currency from dropdown list: ",cc.value)
+        console.log("Currency from state: ",this.state.selectValue)
+        allNBPCurrency(this.state.selectValue)
+        .then((element)=>{
+            console.log("Data from NBP:",element);
+            this.setState({bid:element.rates[0].bid});
+        })
+      });
+    //this.setState({ selectValue: event.target.value })
 
-    allNBPCurrency(this.state.selectValue)
-    .then((element)=>{
-        console.log("Data from NBP:",element);
-        this.setState({bid:element.rates[0].bid});
-    })
-    console.log("Currency from dropdown list: ",event.target.value)
-    console.log("Currency from state: ",this.state.selectValue)
   };
   handleInputStartDate = (event) => {
     this.setState({ startDate: event.target.value });
