@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/Delegations-app/static/css/main.64ec075e.chunk.css",
+    "main.js": "/Delegations-app/static/js/main.830a571c.chunk.js",
+    "main.js.map": "/Delegations-app/static/js/main.830a571c.chunk.js.map",
+    "runtime-main.js": "/Delegations-app/static/js/runtime-main.c91a055c.js",
+    "runtime-main.js.map": "/Delegations-app/static/js/runtime-main.c91a055c.js.map",
+    "static/js/2.6d949eff.chunk.js": "/Delegations-app/static/js/2.6d949eff.chunk.js",
+    "static/js/2.6d949eff.chunk.js.map": "/Delegations-app/static/js/2.6d949eff.chunk.js.map",
+    "index.html": "/Delegations-app/index.html",
+    "precache-manifest.4398605d5c4074ac8bf769c797a824f6.js": "/Delegations-app/precache-manifest.4398605d5c4074ac8bf769c797a824f6.js",
+    "service-worker.js": "/Delegations-app/service-worker.js",
+    "static/css/main.64ec075e.chunk.css.map": "/Delegations-app/static/css/main.64ec075e.chunk.css.map",
+    "static/js/2.6d949eff.chunk.js.LICENSE.txt": "/Delegations-app/static/js/2.6d949eff.chunk.js.LICENSE.txt",
+    "static/media/Logo_1.png": "/Delegations-app/static/media/Logo_1.1361eaff.png",
+    "static/media/employee.png": "/Delegations-app/static/media/employee.0ddce792.png",
+    "static/media/logo.svg": "/Delegations-app/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c91a055c.js",
+    "static/js/2.6d949eff.chunk.js",
+    "static/css/main.64ec075e.chunk.css",
+    "static/js/main.830a571c.chunk.js"
+  ]
+}
