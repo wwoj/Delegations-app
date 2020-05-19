@@ -10,12 +10,12 @@ import Cash from './Views/cashValue'
 import Footer from './Components/footer'
 
 
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter,HashRouter, Route} from 'react-router-dom'
 function App() {
   return (
 
 
-        <BrowserRouter>
+        <HashRouter>
           <Header/>
  
         <Route path exact="/" component={Home} />
@@ -25,7 +25,7 @@ function App() {
         <Route path ="/miniGame" component={Game} />
    
         {/* <Footer/> */}
-        </BrowserRouter>
+        </HashRouter>
 
     
 
