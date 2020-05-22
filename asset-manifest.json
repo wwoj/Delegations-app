@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Delegations-app/static/css/main.478b505d.chunk.css",
-    "main.js": "/Delegations-app/static/js/main.4d327854.chunk.js",
-    "main.js.map": "/Delegations-app/static/js/main.4d327854.chunk.js.map",
+    "main.js": "/Delegations-app/static/js/main.a7af87a2.chunk.js",
+    "main.js.map": "/Delegations-app/static/js/main.a7af87a2.chunk.js.map",
     "runtime-main.js": "/Delegations-app/static/js/runtime-main.c91a055c.js",
     "runtime-main.js.map": "/Delegations-app/static/js/runtime-main.c91a055c.js.map",
     "static/js/2.b6d646d1.chunk.js": "/Delegations-app/static/js/2.b6d646d1.chunk.js",
     "static/js/2.b6d646d1.chunk.js.map": "/Delegations-app/static/js/2.b6d646d1.chunk.js.map",
     "index.html": "/Delegations-app/index.html",
-    "precache-manifest.316ab507fc61fb5d950e93a7bd727df0.js": "/Delegations-app/precache-manifest.316ab507fc61fb5d950e93a7bd727df0.js",
+    "precache-manifest.10fa5e7e63ba4c4997c5d07bfaa25188.js": "/Delegations-app/precache-manifest.10fa5e7e63ba4c4997c5d07bfaa25188.js",
     "service-worker.js": "/Delegations-app/service-worker.js",
     "static/css/main.478b505d.chunk.css.map": "/Delegations-app/static/css/main.478b505d.chunk.css.map",
     "static/js/2.b6d646d1.chunk.js.LICENSE.txt": "/Delegations-app/static/js/2.b6d646d1.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.c91a055c.js",
     "static/js/2.b6d646d1.chunk.js",
     "static/css/main.478b505d.chunk.css",
-    "static/js/main.4d327854.chunk.js"
+    "static/js/main.a7af87a2.chunk.js"
   ]
 }
