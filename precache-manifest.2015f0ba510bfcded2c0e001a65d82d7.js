@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6445aa0a5588fd52ecb2112bc2c6c724",
+    "revision": "a64502d2ab17938e97f6cf1cc7d2b04e",
     "url": "/Delegations-app/index.html"
   },
   {
-    "revision": "3f99d42bb7bcdf85efc3",
+    "revision": "65b8e6fb102d812121a2",
     "url": "/Delegations-app/static/css/main.9c30ac41.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Delegations-app/static/js/2.b6d646d1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "3f99d42bb7bcdf85efc3",
-    "url": "/Delegations-app/static/js/main.3257a4c6.chunk.js"
+    "revision": "65b8e6fb102d812121a2",
+    "url": "/Delegations-app/static/js/main.5fb1ec08.chunk.js"
   },
   {
     "revision": "a5b1ea85ead1cf417843",
