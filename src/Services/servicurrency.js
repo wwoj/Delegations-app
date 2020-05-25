@@ -1,9 +1,9 @@
-const BANKADDRESS = "http://api.nbp.pl/api/exchangerates/rates/c/";
-const BANKADDRESS1 = "http://api.nbp.pl/api/exchangerates/rates/c/";
-const MIDRATEADDRESS = "http://api.nbp.pl/api/exchangerates/rates/a/";
+const BANKADDRESS = "https://api.nbp.pl/api/exchangerates/rates/c/";
+const BANKADDRESS1 = "https://api.nbp.pl/api/exchangerates/rates/c/";
+const MIDRATEADDRESS = "https://api.nbp.pl/api/exchangerates/rates/a/";
 
-export function allNBPCurrency(currency) {
-  var url = BANKADDRESS + currency + "/";
+export function allNBPCurrency(currency,date) {
+  var url = BANKADDRESS + currency + "/"+date;
   return fetch(url).then((resp) => {
     return resp.json();
   });
