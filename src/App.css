@@ -6,17 +6,12 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.container-contact
-{
-  margin-left: 5%;
-  margin-right: 5%;
-}
+
 .header-class {
-  background-color: #2c1681;
   padding: 20px 10px;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+
   align-items: center;
 }
 nav {
@@ -24,7 +19,7 @@ nav {
 }
 
 .img-div {
-  height: 80px;
+  height: 50px;
   width: auto;
 }
 .footer {
@@ -84,6 +79,71 @@ body,
   display: block;
   overflow: hidden;
 }
+/* Style fro details diete page */
+.text-center {
+  text-align: center;
+}
+.th-details-name {
+  width: 40%;
+}
+.th-details {
+  width: auto;
+}
+.title {
+  background-color: #343a40 !important;
+  color: #007bff;
+  font-size: 1.2em;
+}
+.tr-odd {
+  background-color: #ececec;
+}
+.tr-even {
+  background-color: d5d5dc;
+}
+.tr-border {
+  border-bottom: dotted rgba(70, 70, 70, 0.712) 1px;
+}
+.country-name-text {
+  padding: 5px 10px;
+}
+/* ///// Calculator style: */
+.container-calculator {
+  width: 85%;
+  padding: 10px;
+  margin: 0px auto auto;
+}
+.calculator-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 20px;
+  border: 0px solid black;
+  border-radius: 50px;
+}
+.calculator-info-p {
+  width: 60%;
+}
+.calculator-info-img {
+  width: 20%;
+  height: 80%;
+  min-width: 100px;
+  max-width: 160px;
+}
+.conteiner-text {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 1.25rem;
+}
+.section-style {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0rem 1rem;
+  border-bottom: 1px solid black;
+  
+}
 .details-container {
   /* margin-top: 20px; */
   height: 120px;
@@ -103,8 +163,8 @@ body,
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
-  background-color: #2c1681;
-  color: white;
+  background-color: #343a40 !important;
+  color: #007bff;
 }
 .country-name {
   height: 100%;
@@ -137,12 +197,13 @@ body,
   justify-content: center;
 }
 .countires-container {
-  background-color: rgb(56, 67, 231);
+  background-color: rgb(236, 236, 236);
 }
 .table-container {
   background-color: white;
-  margin-top: 20px;
-  box-shadow: 2px 5px 23px 13px rgba(0, 0, 0, 0.75);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .game-area {
@@ -169,14 +230,15 @@ body,
   z-index: 1;
 }
 /* //////////Expenses */
-.editor-container {
+.editor-expenses {
   background-color: rgba(197, 209, 247, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-
+  max-height: 100%;
+  min-height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -184,8 +246,7 @@ body,
   /* height: 50px; */
 }
 
-.component-container
-{
+.component-container {
   height: 40%;
   background: rgba(255, 255, 255, 1);
   display: flex;
@@ -195,52 +256,83 @@ body,
   padding: 1%;
   box-shadow: 0px 10px 1px #ddd, 0 10px 20px #ccc;
 }
-.input-date{
+.input-date {
   display: flex;
   justify-content: space-between;
-  
-
 }
-.container-date-in-out{
+.container-date-in-out {
   padding-left: 15px;
   width: 50%;
 }
-.container-date{
+.container-date {
   display: flex;
   justify-content: space-between;
-  border:1px solid black; 
+  
   padding: 5px;
   width: 600px;
 }
-.mandatory-information
-{
-  color:red;
+.mandatory-information {
+  color: red;
 }
 /* /////////////////// ScrollBar  */
 
-::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-	
-    box-shadow: inset 0 0 5px grey; 
-    border-radius: 10px;
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  background-image: -webkit-gradient(
+    linear,
+    40% 0%,
+    75% 84%,
+    from(rgb(61, 61, 61)),
+    to(rgb(61, 61, 61)),
+    color-stop(0.6, rgb(94, 94, 94))
+  );
+}
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.activeASD, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.activeASD:after {
+  content: "\2212";
+}
+
+.content {
+
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
   
-}
-
-::-webkit-scrollbar
-{
-	width: 15px;
-	background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	background-color: #FFF;
-	background-image: -webkit-gradient(linear,
-									   40% 0%,
-									   75% 84%,
-									   from(#4D9C41),
-									   to(#19911D),
-									   color-stop(.6,#54DE5D))
 }

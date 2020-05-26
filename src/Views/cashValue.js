@@ -19,23 +19,42 @@ export default class CashValue extends Component {
     if (this.state.allCountries.length === 0) {
       return <Loading />;
     } else {
-      const CountriesInfo = this.state.allCountries.map((element) => {
+      const CountriesInfo = this.state.allCountries.map((element,index) => {
+        let isOdd="tr-odd";
+        if(index%2)
+        {
+          isOdd="tr-even"
+        }
+        else
+        {
+          isOdd="tr-odd"
+        }
         return (
-          <div className="container-contact">
+             
               
             <Details
               country={element.country}
               cash={element.value}
               accom={element.accom}
               key={element.code}
+              currency={element.currency}
+              class={isOdd}
             />
-          </div>
+          
         );
       });
       return <div className="countires-container">
           <div className="table-container">
+            <table className="details-table">
+              <thead>
               <TableHeader/>
+              </thead>
+              <tbody>
               {CountriesInfo}
+              </tbody>
+            </table>
+              
+              
               </div></div>;
     }
   }

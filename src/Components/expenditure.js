@@ -23,17 +23,17 @@ export default class Expense extends Component {
       <div>
         Typ wydatku:
         <select onChange={this.props.onChangeList} name={this.props.objName}>
-          <option value="none">...</option>
+          <option value="brak...">...</option>
           <option value="Hotel">Hotel</option>
-          <option value="Other">Inne</option>
-          <option value="Train">Kolej</option>
+          <option value="Inne">Inne</option>
+          <option value="Pociąg">Kolej</option>
           <option value="Nocleg">Nocleg</option>
-          <option value="Small Car">Samochód prywatny do 900cm^2</option>
-          <option value="Bigger Car">Samochód prywatny powyżej 900cm^2</option>
-          <option value="Campany Car">Samochód służbowy</option>
-          <option value="Airplane">Samolot</option>
+          <option value="Samochód prywatny <=900cm^3">Samochód prywatny do 900cm^3</option>
+          <option value="Samochód prywatny >900cm^3">Samochód prywatny powyżej 900cm32</option>
+          <option value="Samochód służbowy">Samochód służbowy</option>
+          <option value="Samolot">Samolot</option>
           <option value="Taxi">Taxi</option>
-          <option value="Advance">Zaliczka</option>
+          <option value="Zaliczka">Zaliczka</option>
         </select>
         Wartosc:
         <input

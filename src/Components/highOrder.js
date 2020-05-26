@@ -9,6 +9,7 @@ import Meals from "../Components/meals";
 import DietCalculator from "../Components/dietCalc";
 import Traveler from "../Components/traveler";
 import DelegationSumup from "../Components/delegationSumup";
+import Logo2 from "../Objects/Logo_2.png";
 let time23 = "T23:59:59";
 let time0 = "T00:00:00";
 export default class Highorder extends Component {
@@ -101,10 +102,10 @@ export default class Highorder extends Component {
   };
 
   showEditor = () => {
-    this.setState({ showStyle: styleButton2 });
+    this.setState({ showStyle: showEditor });
   };
   hideEditor = () => {
-    this.setState({ showStyle: styleButton1 });
+    this.setState({ showStyle: hideEditor });
   };
   showAbraodDate = () => {
     this.setState({ showAbroadDate: styleButton2 });
@@ -146,6 +147,7 @@ export default class Highorder extends Component {
     // this.testHandleDiffDateAbroad();
     // this.calcExpenses();
   }
+  
 
   currencyDateChange = (event) => {
     let curent = event.target;
@@ -228,11 +230,30 @@ export default class Highorder extends Component {
   styleChange = () => {
     console.log("Nazwa kraju? ", this.state.country.code == "pl");
     if (this.state.country.code == "pl") {
+      
       this.hideAbraodDate();
     } else {
       this.showAbraodDate();
     }
   };
+
+  showCountryList=()=>{
+    var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("activeASD");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+// z,oemoc na coś tam chyba
+  }
   testHandleDiffDate = () => {
     // To set two dates to two variables
 
@@ -536,7 +557,7 @@ export default class Highorder extends Component {
       const expensesArray = this.state.expenses.map((element, index) => {
         return (
           <tr>
-            <td>typ:</td>
+            <td>Rodzaj wydatku</td>
             <td>{element.type}</td>
             <td>data</td>
             <td>{element.date}</td>
@@ -550,11 +571,7 @@ export default class Highorder extends Component {
                 Usuń
               </button>
             </td>
-            <td>
-              <button id={index} onClick={this.deleteExpense}>
-                Edit
-              </button>
-            </td>
+ 
           </tr>
         );
       });
@@ -564,18 +581,20 @@ export default class Highorder extends Component {
       }
 
       return (
-        <div className="container-contact">
-          <section>
-            <p>
-              {" "}
+        <div className="container-calculator">
+      
+          <section className="conteiner-text alert-secondary calculator-info">
+            <p className="calculator-info-p"> 
+              
               Kalkulator kosztów delegacji wyliczy kwotę należnej diety lub
               rozliczy całą delegację. Podaj tylko dane podróży i... gotowe!
               Jeśli chcesz rozliczyć delegację zagraniczną wielokrajową lub
               zapamiętać dane rozliczenia, zapraszamy do kalkulatora!
             </p>
-            <div>IMG</div>
+            <img className="calculator-info-img" src={Logo2}/>
           </section>
-          <section>
+          <div className="conteiner-text alert-secondary">
+          <section className="section-style">
             <h2>Rozliczanie delegacji</h2>
             <p>
               Wprowadź potrzebne dane. Po uzupełnieniu wszystkich potrzebnych
@@ -584,14 +603,10 @@ export default class Highorder extends Component {
             </p>
           </section>
           
-            <ExpenseEditor
-              addEvent={this.addExpense}
-              style={this.state.showStyle}
-              hideEditor={this.hideEditor}
-            />
-            <section className="date-section">
+   
+            <section className="section-style">
             <p>Podróż</p>
-            <div className="container-date">
+            <div className="container-date test">
               <table>
                 <thead>
                   <tr>
@@ -639,7 +654,7 @@ export default class Highorder extends Component {
               {CountriesSelect}
             </select>
           </p>
-          <div className="container-date" style={this.state.showAbroadDate}>
+          <div className="content container-date" style={this.state.showAbroadDate}>
             <table>
               <thead>
                 <tr>
@@ -685,11 +700,11 @@ export default class Highorder extends Component {
             </table>
           </div>
           </section>
-          <section>
+          <section className="section-style">
           <p>Liczba posiłków zapewnionych podczas podróży</p>
           <Meals handleChange={this.handleStateChange} />
           </section>
-          <section>
+          <section className="section-style">
             <p>Kalkulacja diety</p>
           <DietCalculator
             countryDiet={this.state.amountdietPL}
@@ -698,7 +713,7 @@ export default class Highorder extends Component {
             sumDiet={this.state.sumOfDietMinusMeals}
           />
           </section>
-          <section>
+          <section className="section-style">
             <p>Informacje dodatkowe</p>
             <p>Dane w tej sekcji nie są obowiązkowe. Jeśli je uzupełnisz pojawią się na formularzu rozliczenia delegacji.</p>
           <Traveler
@@ -714,7 +729,7 @@ export default class Highorder extends Component {
             handleChange={this.handleStateChange}
           />
           </section>
-          <section>
+          <section className="section-style">
           <p>Wydatki</p>
           {testTAble}
           <button onClick={this.showEditor}>Dodaj wydatek</button>
@@ -732,7 +747,7 @@ export default class Highorder extends Component {
           />
           
           </section>
-          <section>
+          <section className="section-style">
           <h1>Podsumowanie:</h1>
           
           <br />
@@ -749,16 +764,32 @@ export default class Highorder extends Component {
           <button>Drukuj </button>
           <br/>
         </div>
+        <ExpenseEditor
+              addEvent={this.addExpense}
+              style={this.state.showStyle}
+              hideEditor={this.hideEditor}
+            />
+        </div>
       );
     }
   }
 }
 
 const styleButton1 = {
+  maxHeight : null
+  //visibility: "hidden",
+};
+const hideEditor = {
+  
   visibility: "hidden",
 };
-const styleButton2 = {
+const showEditor = {
   visibility: "visible",
+  
+};
+const styleButton2 = {
+  //visibility: "visible",
+  maxHeight : "100px"
 };
 
 function calculateFullDays(dateStart, dateStop, timeStart, timeStop) {

@@ -173,7 +173,7 @@ export default class Highorder extends Component {
       return <option value={element.code}>{element.code}</option>;
     });
     return (
-      <div style={this.props.style} className="editor-container">
+      <div style={this.props.style} className="editor-expenses">
         <div className="component-container">
           <div>
             Wybierz Date:

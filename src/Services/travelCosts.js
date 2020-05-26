@@ -93,7 +93,7 @@ var allCountries = [
   { country: "Kuba", code: "cu", currency: "eur", value: 42, accom: 110 },
   { country: "Kuwejt", code: "kw", currency: "eur", value: 39, accom: 200 },
   { country: "Laos", code: "la", currency: "usd", value: 54, accom: 100 },
-  { country: "Liban", code: "lb", currency: "uds", value: 57, accom: 150 },
+  { country: "Liban", code: "lb", currency: "usd", value: 57, accom: 150 },
   { country: "Libia", code: "ly", currency: "eur", value: 52, accom: 100 },
   {
     country: "Lichtenstein",
