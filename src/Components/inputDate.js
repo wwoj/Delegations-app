@@ -2,8 +2,8 @@ import React from "react";
 
 const InputDate = (props) => {
   return (
-    <div className="container-date-in-out">
-      <span>{props.textData}</span>
+    
+    
       <div className="input-date">
       <div>
       <input
@@ -29,7 +29,8 @@ const InputDate = (props) => {
         required
       />
       </div>
-      </div>
+        <span className="mandatory-information">*</span>
+      
     </div>
   );
 };

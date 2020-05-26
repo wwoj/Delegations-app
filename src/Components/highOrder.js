@@ -73,7 +73,7 @@ export default class Highorder extends Component {
       currencyRateDate: new Date().toISOString().substr(0, 10),
       totalAdvance: 0,
       ///
-      showAbroadDate: styleButton1
+      showAbroadDate: styleButton1,
     };
   }
   addExpense = (name) => {
@@ -109,7 +109,7 @@ export default class Highorder extends Component {
   showAbraodDate = () => {
     this.setState({ showAbroadDate: styleButton2 });
   };
-  hideAbraodDate  = () => {
+  hideAbraodDate = () => {
     this.setState({ showAbroadDate: styleButton1 });
   };
 
@@ -117,13 +117,13 @@ export default class Highorder extends Component {
     let name = event.target.name;
     var cc = event.target.value;
     let test = new Promise(function (resolve, reject) {
-      console.error("Sprawdzam teraz tablice wszystkich krajw");
+      console.error("Wchodzimy doi promise");
       resolve();
     });
     test
       .then(() => {
         this.setState({ [name]: cc });
-        console.log("Co to jest?????????????????????");
+        console.log("Jestesmy w pierwszym then: ");
       })
       .then(() => {
         this.testHandleDiffDateAbroad();
@@ -147,12 +147,39 @@ export default class Highorder extends Component {
     // this.calcExpenses();
   }
 
+  currencyDateChange = (event) => {
+    let curent = event.target;
+    let currency = this.state.currencyRate;
+    let changePromise = new Promise(function (resolve, reject) {
+      console.log("Co pobralem", curent.name);
+      console.log("Co Warrtość?", curent.value);
 
+      resolve(curent.value);
+    });
+    changePromise.then((result) => {
+      console.log(result);
+      this.setState({ currencyRateDate: result });
+      console.log("Waluta:" + this.state.currency);
+      allNBPCurrency(this.state.currency, result)
+        .then((element) => {
+          console.log("Currency get from BNP", element);
+          this.setState({ bid: element.rates[0].bid });
+          console.log("Wartosc walut w dniu to: ", element.rates[0].bid);
+        })
+        .then(() => {
+          this.testHandleDiffDateAbroad();
+        })
+        .then(() => {
+          this.calcExpenses();
+        });
+    });
+  };
   // Zmiana w dropdown liscie
   handleChange = (event) => {
     var cc = event.target;
+    var ccValue = event.value;
     var test = new Promise(function (resolve, reject) {
-      console.error("Sprawdzam teraz tablice wszystkich krajw");
+      console.error("Sprawdzam teraz tablice wszystkich krajów");
       resolve();
     });
     test
@@ -163,6 +190,7 @@ export default class Highorder extends Component {
             return element;
           }
         });
+        console.log("Znalezione i przekazane", foundCountry);
         this.setState({ country: foundCountry });
         return foundCountry;
       })
@@ -193,21 +221,18 @@ export default class Highorder extends Component {
       .then((result) => {
         console.log("Czemu nie mam state???", result);
         this.testHandleDiffDateAbroad();
-        console.log("Nazwa kraju? ",this.state.country.code)
+        console.log("Nazwa kraju? ", this.state.country.code);
         this.styleChange();
       });
   };
-  styleChange=()=>{
-    console.log("Nazwa kraju? ",this.state.country.code=="pl")
-    if(this.state.country.code=="pl")
-    {
+  styleChange = () => {
+    console.log("Nazwa kraju? ", this.state.country.code == "pl");
+    if (this.state.country.code == "pl") {
       this.hideAbraodDate();
-    }
-    else
-    {
+    } else {
       this.showAbraodDate();
-      }
-  }
+    }
+  };
   testHandleDiffDate = () => {
     // To set two dates to two variables
 
@@ -540,72 +565,142 @@ export default class Highorder extends Component {
 
       return (
         <div className="container-contact">
-   
-          <h1>Wprowadz dane podróży służbowej:</h1>
-          <ExpenseEditor
-            addEvent={this.addExpense}
-            style={this.state.showStyle}
-            hideEditor={this.hideEditor}
-          />
-          <div className="container-date">
-            <InputDate
-              nameDate="startDate"
-              nameTime="startTime"
-              handleChange={this.handleStateChange}
-              max={new Date().toISOString().substr(0, 10)}
-              placeHolderTime={this.state.startTime}
-              textData="Data od"
+          <section>
+            <p>
+              {" "}
+              Kalkulator kosztów delegacji wyliczy kwotę należnej diety lub
+              rozliczy całą delegację. Podaj tylko dane podróży i... gotowe!
+              Jeśli chcesz rozliczyć delegację zagraniczną wielokrajową lub
+              zapamiętać dane rozliczenia, zapraszamy do kalkulatora!
+            </p>
+            <div>IMG</div>
+          </section>
+          <section>
+            <h2>Rozliczanie delegacji</h2>
+            <p>
+              Wprowadź potrzebne dane. Po uzupełnieniu wszystkich potrzebnych
+              informacji pobierz plik pdf z gotowym rozliczeniem. Wydrukuj go,
+              dołącz do dokumentacji lub przekaż księgowości.
+            </p>
+          </section>
+          
+            <ExpenseEditor
+              addEvent={this.addExpense}
+              style={this.state.showStyle}
+              hideEditor={this.hideEditor}
             />
-
-            <InputDate
-              nameDate="stopDate"
-              nameTime="stopTime"
-              handleChange={this.handleStateChange}
-              minDate={this.state.startDate}
-              minTime={this.state.startTime}
-              placeHolderTime={this.state.stopTime}
-              textData="Data do"
-            />
-          </div>
+            <section className="date-section">
+            <p>Podróż</p>
+            <div className="container-date">
+              <table>
+                <thead>
+                  <tr>
+                    <td>
+                      <span>Data od</span>
+                    </td>
+                    <td>
+                      <span>Data do</span>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <InputDate
+                        nameDate="startDate"
+                        nameTime="startTime"
+                        handleChange={this.handleStateChange}
+                        max={new Date().toISOString().substr(0, 10)}
+                        placeHolderTime={this.state.startTime}
+                        textData="Data od"
+                      />
+                      
+                    </td>
+                    <td>
+                      <InputDate
+                        nameDate="stopDate"
+                        nameTime="stopTime"
+                        handleChange={this.handleStateChange}
+                        minDate={this.state.startDate}
+                        minTime={this.state.startTime}
+                        placeHolderTime={this.state.stopTime}
+                        textData="Data do"
+                      />
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          
           <p>
             Wybierz kraj delegacji: &nbsp;
             <select id="selColor" onChange={this.handleChange}>
               {CountriesSelect}
             </select>
           </p>
-          <div className="container-date"  style={this.state.showAbroadDate}>
-            <InputDate
-              nameDate="startDateAbroad"
-              nameTime="startTimeAbroad"
-              handleChange={this.handleStateChange}
-              minDate={this.state.startDate}
-              minTime={this.state.startTime}
-              maxDate={this.state.stopDate}
-              maxTime={this.state.stopTime}
-              max={new Date().toISOString().substr(0, 10)}
-              placeHolderTime={this.state.startTimeAbroad}
-              textData="Data wyjazdu za granicę"
-            />
-
-            <InputDate
-              nameDate="stopDateAbroad"
-              nameTime="stopTimeAbroad"
-              handleChange={this.handleStateChange}
-              minDate={this.state.startDateAbroad}
-              minTime={this.state.startTimeAbroad}
-              maxDate={this.state.stopDate}
-              maxTime={this.state.stopTime}
-              placeHolderTime={this.state.stopTimeAbroad}
-              textData="Data powrotu z zagranicy"
-            />
+          <div className="container-date" style={this.state.showAbroadDate}>
+            <table>
+              <thead>
+                <tr>
+                  <td>
+                    <span>Data wyjazdu za granicę</span>
+                  </td>
+                  <td>
+                    <span>Data powrotu z zagranicy</span>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <InputDate
+                      nameDate="startDateAbroad"
+                      nameTime="startTimeAbroad"
+                      handleChange={this.handleStateChange}
+                      minDate={this.state.startDate}
+                      minTime={this.state.startTime}
+                      maxDate={this.state.stopDate}
+                      maxTime={this.state.stopTime}
+                      max={new Date().toISOString().substr(0, 10)}
+                      placeHolderTime={this.state.startTimeAbroad}
+                      textData="Data wyjazdu za granicę"
+                    />
+                  </td>
+                  <td>
+                    <InputDate
+                      nameDate="stopDateAbroad"
+                      nameTime="stopTimeAbroad"
+                      handleChange={this.handleStateChange}
+                      minDate={this.state.startDateAbroad}
+                      minTime={this.state.startTimeAbroad}
+                      maxDate={this.state.stopDate}
+                      maxTime={this.state.stopTime}
+                      placeHolderTime={this.state.stopTimeAbroad}
+                      textData="Data powrotu z zagranicy"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          </section>
+          <section>
+          <p>Liczba posiłków zapewnionych podczas podróży</p>
           <Meals handleChange={this.handleStateChange} />
+          </section>
+          <section>
+            <p>Kalkulacja diety</p>
           <DietCalculator
             countryDiet={this.state.amountdietPL}
             foreignDiet={this.state.amountOtherCurrency}
             foreignCurrency={this.state.currency}
             sumDiet={this.state.sumOfDietMinusMeals}
           />
+          </section>
+          <section>
+            <p>Informacje dodatkowe</p>
+            <p>Dane w tej sekcji nie są obowiązkowe. Jeśli je uzupełnisz pojawią się na formularzu rozliczenia delegacji.</p>
           <Traveler
             name={this.state.name}
             surname={this.state.surname}
@@ -618,25 +713,28 @@ export default class Highorder extends Component {
             endPlace={this.state.endPlace}
             handleChange={this.handleStateChange}
           />
+          </section>
+          <section>
           <p>Wydatki</p>
           {testTAble}
+          <button onClick={this.showEditor}>Dodaj wydatek</button>
           <br />
           Data kursu waluty:
+         
           <input
             type="date"
             id="start"
             name="currencyRateDate"
             min="2012-01-01"
-            value={this.state.date}
             max={new Date().toISOString().substr(0, 10)}
-            onChange={this.handleStateChange}
+            onChange={this.currencyDateChange}
             value={this.state.currencyRateDate}
           />
-          <br />
-          {this.state.currencyRateDate}
+          
+          </section>
+          <section>
           <h1>Podsumowanie:</h1>
-          <p>Wyswietlam wszystkie wyliczenia albo prawie wszystkie:</p>
-          <button onClick={this.showEditor}>Dodaj wydatek</button>
+          
           <br />
           <DelegationSumup
             totalCost={this.state.totalExpenses}
@@ -646,7 +744,10 @@ export default class Highorder extends Component {
             campanyCardCost={this.state.campanyCardCosts}
             campanyTransferCost={this.state.campanyTransfer}
           />
+          </section>
+          <h1>Drukuj rozliczenie do PDF</h1>
           <button>Drukuj </button>
+          <br/>
         </div>
       );
     }

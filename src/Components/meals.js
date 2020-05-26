@@ -2,7 +2,7 @@ import React, { Component } from "react";
 export default (props) => {
   return (
     <div>
-      Liczba posiłków podczas delegacji:
+     
       <table>
         <tbody>
           <tr>
