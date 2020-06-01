@@ -147,7 +147,6 @@ export default class Highorder extends Component {
     // this.testHandleDiffDateAbroad();
     // this.calcExpenses();
   }
-  
 
   currencyDateChange = (event) => {
     let curent = event.target;
@@ -230,30 +229,29 @@ export default class Highorder extends Component {
   styleChange = () => {
     console.log("Nazwa kraju? ", this.state.country.code == "pl");
     if (this.state.country.code == "pl") {
-      
       this.hideAbraodDate();
     } else {
       this.showAbraodDate();
     }
   };
 
-  showCountryList=()=>{
+  showCountryList = () => {
     var coll = document.getElementsByClassName("collapsible");
-var i;
+    var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("activeASD");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    } 
-  });
-}
-// z,oemoc na coś tam chyba
-  }
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("activeASD");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    }
+    // z,oemoc na coś tam chyba
+  };
   testHandleDiffDate = () => {
     // To set two dates to two variables
 
@@ -571,7 +569,6 @@ for (i = 0; i < coll.length; i++) {
                 Usuń
               </button>
             </td>
- 
           </tr>
         );
       });
@@ -582,193 +579,204 @@ for (i = 0; i < coll.length; i++) {
 
       return (
         <div className="container-calculator">
-      
           <section className="conteiner-text alert-secondary calculator-info">
-            <p className="calculator-info-p"> 
-              
+            <p className="calculator-info-p">
               Kalkulator kosztów delegacji wyliczy kwotę należnej diety lub
               rozliczy całą delegację. Podaj tylko dane podróży i... gotowe!
               Jeśli chcesz rozliczyć delegację zagraniczną wielokrajową lub
               zapamiętać dane rozliczenia, zapraszamy do kalkulatora!
             </p>
-            <img className="calculator-info-img" src={Logo2}/>
+            <img className="calculator-info-img" src={Logo2} />
           </section>
           <div className="conteiner-text alert-secondary">
-          <section className="section-style">
-            <h2>Rozliczanie delegacji</h2>
-            <p>
-              Wprowadź potrzebne dane. Po uzupełnieniu wszystkich potrzebnych
-              informacji pobierz plik pdf z gotowym rozliczeniem. Wydrukuj go,
-              dołącz do dokumentacji lub przekaż księgowości.
-            </p>
-          </section>
-          
-   
             <section className="section-style">
-            <p>Podróż</p>
-            <div className="container-date test">
-              <table>
-                <thead>
-                  <tr>
-                    <td>
-                      <span>Data od</span>
-                    </td>
-                    <td>
-                      <span>Data do</span>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
+              <h2>Rozliczanie delegacji</h2>
+              <p>
+                Wprowadź potrzebne dane. Po uzupełnieniu wszystkich potrzebnych
+                informacji pobierz plik pdf z gotowym rozliczeniem. Wydrukuj go,
+                dołącz do dokumentacji lub przekaż księgowości.
+              </p>
+            </section>
+
+            <section className="section-style">
+              <p>Podróż</p>
+              <div className="container-date test">
+                <table>
+                  <thead>
+                    <tr>
+                      <td>
+                        <span>Data od</span>
+                      </td>
+                      <td>
+                        <span>Data do</span>
+                      </td>
+                      <td>
+                        <span>Holder</span>
+                      </td>
+                      <td>
+                        <span>Holder</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
                       <InputDate
-                        nameDate="startDate"
-                        nameTime="startTime"
+                        name="startDate"
+                        type="date"
+                        value={this.state.startDate}
                         handleChange={this.handleStateChange}
                         max={new Date().toISOString().substr(0, 10)}
-                        placeHolderTime={this.state.startTime}
-                        textData="Data od"
                       />
-                      
-                    </td>
-                    <td>
                       <InputDate
-                        nameDate="stopDate"
-                        nameTime="stopTime"
+                        name="startTime"
+                        type="time"
+                        value={this.state.startTime}
                         handleChange={this.handleStateChange}
-                        minDate={this.state.startDate}
-                        minTime={this.state.startTime}
-                        placeHolderTime={this.state.stopTime}
-                        textData="Data do"
                       />
-                      
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          
-          <p>
-            Wybierz kraj delegacji: &nbsp;
-            <select id="selColor" onChange={this.handleChange}>
-              {CountriesSelect}
-            </select>
-          </p>
-          <div className="content container-date" style={this.state.showAbroadDate}>
-            <table>
-              <thead>
-                <tr>
-                  <td>
-                    <span>Data wyjazdu za granicę</span>
-                  </td>
-                  <td>
-                    <span>Data powrotu z zagranicy</span>
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <InputDate
-                      nameDate="startDateAbroad"
-                      nameTime="startTimeAbroad"
-                      handleChange={this.handleStateChange}
-                      minDate={this.state.startDate}
-                      minTime={this.state.startTime}
-                      maxDate={this.state.stopDate}
-                      maxTime={this.state.stopTime}
-                      max={new Date().toISOString().substr(0, 10)}
-                      placeHolderTime={this.state.startTimeAbroad}
-                      textData="Data wyjazdu za granicę"
-                    />
-                  </td>
-                  <td>
-                    <InputDate
-                      nameDate="stopDateAbroad"
-                      nameTime="stopTimeAbroad"
-                      handleChange={this.handleStateChange}
-                      minDate={this.state.startDateAbroad}
-                      minTime={this.state.startTimeAbroad}
-                      maxDate={this.state.stopDate}
-                      maxTime={this.state.stopTime}
-                      placeHolderTime={this.state.stopTimeAbroad}
-                      textData="Data powrotu z zagranicy"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <InputDate
+                        name="stopDate"
+                        type="date"
+                        value={this.state.stopDate}
+                        handleChange={this.handleStateChange}
+                        min={this.state.startDate}
+                      />
+                      <InputDate
+                        name="stopTime"
+                        type="time"
+                        value={this.state.stopTime}
+                        handleChange={this.handleStateChange}
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>
+                Wybierz kraj delegacji: &nbsp;
+                <select id="selColor" onChange={this.handleChange}>
+                  {CountriesSelect}
+                </select>
+              </p>
+              <div
+                className="content container-date"
+                style={this.state.showAbroadDate}
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <td>
+                        <span>Data wyjazdu za granicę</span>
+                      </td>
+                      <td>
+                        <span>Data powrotu z zagranicy</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <InputDate
+                        name="startDateAbroad"
+                        type="date"
+                        value={this.state.startDateAbroad}
+                        handleChange={this.handleStateChange}
+                        min={this.state.startDate}
+                        max={this.state.stopTime}
+                      />
+                      <InputDate
+                        name="startTimeAbroad"
+                        type="time"
+                        value={this.state.startTimeAbroad}
+                        handleChange={this.handleStateChange}
+                      />
+                      <InputDate
+                        name="stopDateAbroad"
+                        type="date"
+                        value={this.state.stopDateAbroad}
+                        handleChange={this.handleStateChange}
+                        min={this.state.startDateAbroad}
+                        max={this.state.stopDate}
+                      />
+                      <InputDate
+                        name="stopTimeAbroad"
+                        type="time"
+                        value={this.state.stopTimeAbroad}
+                        handleChange={this.handleStateChange}
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section className="section-style">
+              <p>Liczba posiłków zapewnionych podczas podróży</p>
+              <Meals handleChange={this.handleStateChange} />
+            </section>
+            <section className="section-style">
+              <p>Kalkulacja diety</p>
+              <DietCalculator
+                countryDiet={this.state.amountdietPL}
+                foreignDiet={this.state.amountOtherCurrency}
+                foreignCurrency={this.state.currency}
+                sumDiet={this.state.sumOfDietMinusMeals}
+              />
+            </section>
+            <section className="section-style">
+              <p>Informacje dodatkowe</p>
+              <p>
+                Dane w tej sekcji nie są obowiązkowe. Jeśli je uzupełnisz
+                pojawią się na formularzu rozliczenia delegacji.
+              </p>
+              <Traveler
+                name={this.state.name}
+                surname={this.state.surname}
+                campany={this.state.campany}
+                delegationNumber={this.state.delegationNumber}
+                transport={this.state.transport}
+                comments={this.state.comments}
+                startPlace={this.state.startPlace}
+                destination={this.state.destination}
+                endPlace={this.state.endPlace}
+                handleChange={this.handleStateChange}
+              />
+            </section>
+            <section className="section-style">
+              <p>Wydatki</p>
+              {testTAble}
+              <button onClick={this.showEditor}>Dodaj wydatek</button>
+              <br />
+              Data kursu waluty:
+              <input
+                type="date"
+                id="start"
+                name="currencyRateDate"
+                min="2012-01-01"
+                max={new Date().toISOString().substr(0, 10)}
+                onChange={this.currencyDateChange}
+                value={this.state.currencyRateDate}
+              />
+            </section>
+            <section className="section-style">
+              <h1>Podsumowanie:</h1>
+
+              <br />
+              <DelegationSumup
+                totalCost={this.state.totalExpenses}
+                empleyeeCost={this.state.employeeTotalCost}
+                advanceCost={this.state.totalAdvance}
+                employeeReturnCost={this.state.employerrReturnCost}
+                campanyCardCost={this.state.campanyCardCosts}
+                campanyTransferCost={this.state.campanyTransfer}
+              />
+            </section>
+            <h1>Drukuj rozliczenie do PDF</h1>
+            <button>Drukuj </button>
+            <br />
           </div>
-          </section>
-          <section className="section-style">
-          <p>Liczba posiłków zapewnionych podczas podróży</p>
-          <Meals handleChange={this.handleStateChange} />
-          </section>
-          <section className="section-style">
-            <p>Kalkulacja diety</p>
-          <DietCalculator
-            countryDiet={this.state.amountdietPL}
-            foreignDiet={this.state.amountOtherCurrency}
-            foreignCurrency={this.state.currency}
-            sumDiet={this.state.sumOfDietMinusMeals}
+          <ExpenseEditor
+            addEvent={this.addExpense}
+            style={this.state.showStyle}
+            hideEditor={this.hideEditor}
           />
-          </section>
-          <section className="section-style">
-            <p>Informacje dodatkowe</p>
-            <p>Dane w tej sekcji nie są obowiązkowe. Jeśli je uzupełnisz pojawią się na formularzu rozliczenia delegacji.</p>
-          <Traveler
-            name={this.state.name}
-            surname={this.state.surname}
-            campany={this.state.campany}
-            delegationNumber={this.state.delegationNumber}
-            transport={this.state.transport}
-            comments={this.state.comments}
-            startPlace={this.state.startPlace}
-            destination={this.state.destination}
-            endPlace={this.state.endPlace}
-            handleChange={this.handleStateChange}
-          />
-          </section>
-          <section className="section-style">
-          <p>Wydatki</p>
-          {testTAble}
-          <button onClick={this.showEditor}>Dodaj wydatek</button>
-          <br />
-          Data kursu waluty:
-         
-          <input
-            type="date"
-            id="start"
-            name="currencyRateDate"
-            min="2012-01-01"
-            max={new Date().toISOString().substr(0, 10)}
-            onChange={this.currencyDateChange}
-            value={this.state.currencyRateDate}
-          />
-          
-          </section>
-          <section className="section-style">
-          <h1>Podsumowanie:</h1>
-          
-          <br />
-          <DelegationSumup
-            totalCost={this.state.totalExpenses}
-            empleyeeCost={this.state.employeeTotalCost}
-            advanceCost={this.state.totalAdvance}
-            employeeReturnCost={this.state.employerrReturnCost}
-            campanyCardCost={this.state.campanyCardCosts}
-            campanyTransferCost={this.state.campanyTransfer}
-          />
-          </section>
-          <h1>Drukuj rozliczenie do PDF</h1>
-          <button>Drukuj </button>
-          <br/>
-        </div>
-        <ExpenseEditor
-              addEvent={this.addExpense}
-              style={this.state.showStyle}
-              hideEditor={this.hideEditor}
-            />
         </div>
       );
     }
@@ -776,20 +784,18 @@ for (i = 0; i < coll.length; i++) {
 }
 
 const styleButton1 = {
-  maxHeight : null
+  maxHeight: null,
   //visibility: "hidden",
 };
 const hideEditor = {
-  
   visibility: "hidden",
 };
 const showEditor = {
   visibility: "visible",
-  
 };
 const styleButton2 = {
   //visibility: "visible",
-  maxHeight : "100px"
+  maxHeight: "200px",
 };
 
 function calculateFullDays(dateStart, dateStop, timeStart, timeStop) {

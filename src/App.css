@@ -1,11 +1,20 @@
 #root {
   display: fles;
 }
+
+@media  (max-width: 480px) {
+  #root {
+    border: 2px solid red;
+    background-color: pink;
+    
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
 
 .header-class {
   padding: 20px 10px;
@@ -108,7 +117,8 @@ body,
 }
 /* ///// Calculator style: */
 .container-calculator {
-  width: 85%;
+  width: 50%;
+  min-width: 650px;
   padding: 10px;
   margin: 0px auto auto;
 }
