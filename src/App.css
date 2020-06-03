@@ -147,9 +147,50 @@ body,
   border: 1px solid transparent;
   border-radius: 1.25rem;
 }
+.calculator-date-table
+{
+  width: 100%;
+  margin-bottom: 15px;
+}
+.calculator-date-th{
+width: 25%;
+}
+.calculator-top-th{
+  width: 55%;
+  }
+
+.calculator-date-input{
+  width: 100%;
+  /* text-align: right; */
+}
+.calculator-input{
+  width: 100%;
+  /* text-align: right; */
+}
+.calculator-sumup-border{
+  border-bottom: 1px solid black;
+}
+.expense-input-date{
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.expense-editor-row{
+  display: flex;
+  width: auto;
+  justify-content: space-between;
+}
+.expense-editor-input
+{
+  width: 60%;
+  margin-bottom: 0.4rem
+}
+.expense-editor-input >p{
+  margin-bottom: 0.0rem
+}
 .section-style {
   position: relative;
-  padding: 0.75rem 1.25rem;
+  /* padding: 0.75rem 1.25rem; */
   margin: 1rem 0rem 1rem;
   border-bottom: 1px solid black;
   
@@ -257,14 +298,15 @@ body,
 }
 
 .component-container {
-  height: 40%;
+  height: auto;
   background: rgba(255, 255, 255, 1);
   display: flex;
-  width: 40%;
+  width: auto;
   flex-direction: column;
   justify-content: space-around;
   padding: 1%;
   box-shadow: 0px 10px 1px #ddd, 0 10px 20px #ccc;
+  min-width: 300px;
 }
 .input-date {
   display: flex;
@@ -278,8 +320,8 @@ body,
   display: flex;
   justify-content: space-between;
   
-  padding: 5px;
-  width: 600px;
+  
+  width: 100%;
 }
 .mandatory-information {
   color: red;

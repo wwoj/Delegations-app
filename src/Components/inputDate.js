@@ -6,7 +6,7 @@ const InputDate = (props) => {
     
       
       <td>
-      <input
+      <input className="calculator-date-input"
         type={props.type}
         id="start"
         name={props.name}

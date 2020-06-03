@@ -3,7 +3,7 @@ export default (props) => {
   return (
     <div>
      
-      <table>
+      <table className="calculator-date-table">
         <tbody>
           <tr>
             <th>Liczba śniadań:</th>

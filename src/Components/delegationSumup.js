@@ -19,7 +19,7 @@ export default (props) => {
               <span>Zwrot dla frimy lub pracownika (PLN)</span>
             </td>
           </tr>
-          <tr>
+          <tr className="calculator-sumup-border">
             <td>
               <span>{props.totalCost}</span>
             </td>
@@ -41,7 +41,7 @@ export default (props) => {
             <td></td>
             <td></td>
           </tr>
-          <tr>
+          <tr >
             <td>
               <span>{props.campanyCardCost}</span>
             </td>

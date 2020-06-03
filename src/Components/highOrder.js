@@ -554,27 +554,37 @@ export default class Highorder extends Component {
 
       const expensesArray = this.state.expenses.map((element, index) => {
         return (
-          <tr>
-            <td>Rodzaj wydatku</td>
-            <td>{element.type}</td>
-            <td>data</td>
-            <td>{element.date}</td>
-            <td>kwota</td>
-            <td>{element.totalCost}</td>
-            <td>zł</td>
-            <td>typ płatności</td>
-            <td>{element.paymentOption}</td>
-            <td>
-              <button id={index} onClick={this.deleteExpense}>
-                Usuń
-              </button>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>{element.type}</td>
+              <td>{element.date}</td>
+              <td>{element.totalCost} zł</td>
+              <td>{element.paymentOption}</td>
+              <td>
+                <button id={index} onClick={this.deleteExpense}>
+                  Usuń
+                </button>
+              </td>
+            </tr>
+          </tbody>
         );
       });
       let testTAble = "";
       if (this.state.expenses.length > 0) {
-        testTAble = <table>{expensesArray}</table>;
+        testTAble = (
+          <table className="calculator-date-table">
+            <thead>
+              <tr>
+                <th className="calculator-date-th">Rodzaj wydatku</th>
+                <th className="calculator-date-th">Data</th>
+                <th className="calculator-date-th">Kwota</th>
+                                <th className="calculator-date-th">Typ płatności</th>
+                <th className="calculator-date-th">Usuń</th>
+              </tr>
+            </thead>
+            {expensesArray}
+          </table>
+        );
       }
 
       return (
@@ -599,23 +609,17 @@ export default class Highorder extends Component {
             </section>
 
             <section className="section-style">
-              <p>Podróż</p>
+              <h3>Podróż</h3>
               <div className="container-date test">
-                <table>
+                <table className="calculator-date-table">
                   <thead>
                     <tr>
-                      <td>
+                      <th className="calculator-top-th" colspan="2">
                         <span>Data od</span>
-                      </td>
-                      <td>
+                      </th>
+                      <th className="calculator-top-th" colspan="2">
                         <span>Data do</span>
-                      </td>
-                      <td>
-                        <span>Holder</span>
-                      </td>
-                      <td>
-                        <span>Holder</span>
-                      </td>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -661,15 +665,15 @@ export default class Highorder extends Component {
                 className="content container-date"
                 style={this.state.showAbroadDate}
               >
-                <table>
+                <table className="calculator-date-table">
                   <thead>
                     <tr>
-                      <td>
+                      <th className="calculator-top-th" colspan="2">
                         <span>Data wyjazdu za granicę</span>
-                      </td>
-                      <td>
+                      </th>
+                      <th className="calculator-top-th" colspan="2">
                         <span>Data powrotu z zagranicy</span>
-                      </td>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -708,11 +712,11 @@ export default class Highorder extends Component {
               </div>
             </section>
             <section className="section-style">
-              <p>Liczba posiłków zapewnionych podczas podróży</p>
+              <h3>Liczba posiłków zapewnionych podczas podróży</h3>
               <Meals handleChange={this.handleStateChange} />
             </section>
             <section className="section-style">
-              <p>Kalkulacja diety</p>
+              <h3>Kalkulacja diety</h3>
               <DietCalculator
                 countryDiet={this.state.amountdietPL}
                 foreignDiet={this.state.amountOtherCurrency}
@@ -721,7 +725,7 @@ export default class Highorder extends Component {
               />
             </section>
             <section className="section-style">
-              <p>Informacje dodatkowe</p>
+              <h3>Informacje dodatkowe</h3>
               <p>
                 Dane w tej sekcji nie są obowiązkowe. Jeśli je uzupełnisz
                 pojawią się na formularzu rozliczenia delegacji.
@@ -740,10 +744,10 @@ export default class Highorder extends Component {
               />
             </section>
             <section className="section-style">
-              <p>Wydatki</p>
+              <h3>Wydatki</h3>
               {testTAble}
               <button onClick={this.showEditor}>Dodaj wydatek</button>
-              <br />
+              <div className="expense-input-date">
               Data kursu waluty:
               <input
                 type="date"
@@ -754,9 +758,10 @@ export default class Highorder extends Component {
                 onChange={this.currencyDateChange}
                 value={this.state.currencyRateDate}
               />
+              </div>
             </section>
             <section className="section-style">
-              <h1>Podsumowanie:</h1>
+              <h3>Podsumowanie:</h3>
 
               <br />
               <DelegationSumup
@@ -768,7 +773,7 @@ export default class Highorder extends Component {
                 campanyTransferCost={this.state.campanyTransfer}
               />
             </section>
-            <h1>Drukuj rozliczenie do PDF</h1>
+            <h3>Drukuj rozliczenie do PDF</h3>
             <button>Drukuj </button>
             <br />
           </div>

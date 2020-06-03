@@ -2,22 +2,22 @@ import React from "react";
 export default (props) => {
   return (
     <div className="diet-calculator">
-      <table>
-        <tr>
-          <th>
+      <table className="calculator-date-table">
+        <tr >
+          <th className="calculator-date-th">
             <span>Dieta krajowa</span>
           </th>
-          <th>
+          <th className="calculator-date-th">
             <span>Waluta</span>
           </th>
-          <th>
+          <th className="calculator-date-th">
             <span>Dieta zagraniczna</span>
           </th>
-          <th>
+          <th className="calculator-date-th"> 
             <span>Waluta</span>
           </th>
         </tr>
-        <tr>
+        <tr className="calculator-sumup-border">
           <td>
             <span>{props.countryDiet}</span>
           </td>
@@ -41,7 +41,7 @@ export default (props) => {
             <span>Waluta</span>
           </th>
         </tr>
-        <tr>
+        <tr >
           <td></td>
           <td></td>
           <td>

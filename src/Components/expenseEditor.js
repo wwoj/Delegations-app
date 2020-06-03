@@ -49,7 +49,6 @@ const CURRENCYARRAY = [
   { country: "Mecedonia", code: "MKD" },
 ];
 
-
 // Najpierw stworzenie expensu w obiekcie tutaj a następnie dodanie do tablicy przez przycisk zapisz i zamknij???
 export default class Highorder extends Component {
   constructor(props) {
@@ -62,20 +61,19 @@ export default class Highorder extends Component {
       date: new Date().toISOString().substr(0, 10),
       currentRate: 0,
       totalCost: 0,
-      paymentOption:"none",
-      style:{ visibility: "show" }
+      paymentOption: "none",
+      style: { visibility: "show" },
     };
   }
   showEditor = () => {
     this.setState({ style: show });
   };
   hideEditor = () => {
-   
-    this.setState({ style: hide});
+    this.setState({ style: hide });
   };
-  hidePaymentOption = ()=>{
-    this.setState({ style: hide,paymentOption:"none"});
-  }
+  hidePaymentOption = () => {
+    this.setState({ style: hide, paymentOption: "none" });
+  };
   addEvent = () => {
     let object = {
       type: this.state.type,
@@ -83,8 +81,7 @@ export default class Highorder extends Component {
       totalCost: this.state.totalCost,
       date: this.state.date,
       paymentOption: this.state.paymentOption,
-      currency:this.state.currency,
-      
+      currency: this.state.currency,
     };
     this.props.addEvent(object);
     this.props.hideEditor();
@@ -99,33 +96,30 @@ export default class Highorder extends Component {
       type: "none",
       distance: "",
       amount: "",
-      paymentOption:"none",
+      paymentOption: "none",
       currency: "PLN",
       date: new Date().toISOString().substr(0, 10),
       currentRate: 0,
       totalCost: 0,
-      style:hide
-      
+      style: hide,
     });
   };
   handleChange = (event) => {
     let object = event.target.name;
     let value = event.target.value;
     this.setState({ [object]: value });
-    this.styleChange()
+    this.styleChange();
   };
-  styleChange=()=>{
-    console.log("typ wydatku?",this.state.type)
-    if(this.state.type=="Zaliczka")
-    {
-      console.log("Chowam expensa")
+  styleChange = () => {
+    console.log("typ wydatku?", this.state.type);
+    if (this.state.type == "Zaliczka") {
+      console.log("Chowam expensa");
       this.hidePaymentOption();
-    }
-    else{
-      console.log("Pokazuje expensa")
+    } else {
+      console.log("Pokazuje expensa");
       this.showEditor();
     }
-  }
+  };
   handleChangeSelect = (event) => {
     let object = event.target.name;
     let value = event.target.value;
@@ -138,7 +132,7 @@ export default class Highorder extends Component {
         this.setState({ [object]: value });
       })
       .then(() => {
-        this.styleChange()
+        this.styleChange();
         return this.handleCurrencyChange(this.state.currency, this.state.date);
       })
       .then(() => {
@@ -175,9 +169,9 @@ export default class Highorder extends Component {
     return (
       <div style={this.props.style} className="editor-expenses">
         <div className="component-container">
-          <div>
-            Wybierz Date:
-            <input
+          <div className="expense-editor-row">
+            <p>Data:</p>
+            <input className="expense-editor-input"
               type="date"
               id="start"
               name="date"
@@ -187,22 +181,25 @@ export default class Highorder extends Component {
               onChange={this.handleChangeSelect}
             />
           </div>
-          <div>
-            Wybierz typ wydatku:
-            <select
+          <div className="expense-editor-row">
+            <p>Rodzaj wydatku</p>
+            <select className="expense-editor-input"
               value={this.state.type}
               name="type"
               onChange={this.handleChangeSelect}
             >
-        
-              <option value="none"  disabled >...</option>
+              <option value="brak" disabled>
+                ...
+              </option>
               <option value="Hotel">Hotel</option>
-              <option value="Other">Inne</option>
-              <option value="Train">Kolej</option>
+              <option value="Inny">Inne</option>
+              <option value="Pociąg">Kolej</option>
               <option value="Nocleg">Nocleg</option>
-              <option value="Small Car">Samochód prywatny do 900cm^2</option>
-              <option value="Bigger Car">
-                Samochód prywatny powyżej 900cm^2
+              <option value="Samochód prywatny <= 900cm^2">
+                Samochód prywatny = 900cm^2
+              </option>
+              <option value="Samochód prywatny > 900cm^2">
+                Samochód prywatny > 900cm^2
               </option>
               <option value="Samochód służbowy">Samochód służbowy</option>
               <option value="Samolot">Samolot</option>
@@ -210,20 +207,21 @@ export default class Highorder extends Component {
               <option value="Zaliczka">Zaliczka</option>
             </select>
           </div>
-          <div>
-            Wprowadz wartosc wydatku:
-            <input
+          <div className="expense-editor-row">
+            <p>Kwota:</p>
+            <input className="expense-editor-input"
               onChange={this.handleChangeSelect}
               name="amount"
               type="number"
+              min="0"
               placeholder="Wpisz kwote wydatku"
               step="0.01"
               value={this.state.amount}
             />
           </div>
-          <div>
-            Wybierz walutę:
-            <select
+          <div className="expense-editor-row">
+            <p>Waluta:</p>
+            <select className="expense-editor-input"
               value={this.state.currency}
               name="currency"
               onChange={this.handleChangeSelect}
@@ -231,31 +229,31 @@ export default class Highorder extends Component {
               {options}
             </select>
           </div>
-          <div>
-            Wartość końcowa:
+          <div className="expense-editor-row">
+            <p>Kwota lok.:</p>
             <span>{this.state.totalCost} zł</span>
           </div>
-          <div>
-            Rodzaj płatności:
-            <select
+          <div className="expense-editor-row">
+            <p>Rodzaj płatności:</p>
+            <select className="expense-editor-input"
               value={this.state.paymentOption}
               name="paymentOption"
               onChange={this.handleChangeSelect}
               style={this.state.style}
             >
-        
-        <option value="none"  disabled >...</option>
+              <option value="none" disabled>
+                ...
+              </option>
               <option value="Karta firmowa">Karta firmowa</option>
               <option value="Pracownik">Pracownik</option>
               <option value="Przelew">Przelew</option>
-                         </select>
+            </select>
           </div>
-          <div>
+          <div className="expense-editor-row">
             <button onClick={this.addEvent}>Zapisz</button>
             <button onClick={this.cancelEvent}>Anuluj</button>
           </div>
         </div>
-        
       </div>
     );
   }

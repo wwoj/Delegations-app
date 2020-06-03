@@ -3,9 +3,10 @@ import React from "react";
 export default (props) => {
   return (
     <div className="traveler-date">
-      <table>
+      <table className="calculator-date-table">
+        <thead>
         <tr>
-          <td>
+          <td> 
             <span>Imię:</span>
           </td>
           <td>
@@ -15,15 +16,17 @@ export default (props) => {
             <span>Nazwa firmy:</span>
           </td>
         </tr>
+        </thead>
+        <tbody>
         <tr>
           <td>
-            <input onChange={props.handleChange} type="text" name="name" placeholder="Podaj imię..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="name" placeholder="Podaj imię..." />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="surname" placeholder="Podaj nazwisko..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="surname" placeholder="Podaj nazwisko..." />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="campany" placeholder="Podaj nazwe firmy..."  />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="campany" placeholder="Podaj nazwe firmy..."  />
           </td>
         </tr>
         <tr>
@@ -39,20 +42,20 @@ export default (props) => {
         </tr>
         <tr>
           <td>
-            <input onChange={props.handleChange} type="text" name="delegationNumber" placeholder="Numer delegacji..."  />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="delegationNumber" placeholder="Numer delegacji..."  />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="transport" placeholder="Środek transportu..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="transport" placeholder="Środek transportu..." />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="comments" placeholder="Uwagi..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="comments" placeholder="Uwagi..." />
           </td>
         </tr>
         <tr>
             <td className="travel-purpose" colspan="3">Cel podróży</td>
         </tr>
         <tr>
-            <td className="travel-purpose" colspan="3"><input onChange={props.handleChange} type="text" name="travelPurpose" placeholder="Cel delegacji..."  style={inputStyle}/></td>
+            <td className="calculator-input" className="travel-purpose" colspan="3"><input onChange={props.handleChange} type="text" name="travelPurpose" placeholder="Cel delegacji..."  style={inputStyle}/></td>
         </tr>
         <tr>
           <td>
@@ -67,15 +70,16 @@ export default (props) => {
         </tr>
         <tr>
           <td>
-            <input onChange={props.handleChange} type="text" name="startPlace" placeholder="Miejsce rozpoczęcia..."  />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="startPlace" placeholder="Miejsce rozpoczęcia..."  />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="destination" placeholder="Miejsce docelowe..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="destination" placeholder="Miejsce docelowe..." />
           </td>
           <td>
-            <input onChange={props.handleChange} type="text" name="endPlace" placeholder="Miejsce zakończenia..." />
+            <input className="calculator-input" onChange={props.handleChange} type="text" name="endPlace" placeholder="Miejsce zakończenia..." />
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   );
