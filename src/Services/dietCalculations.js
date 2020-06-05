@@ -1,6 +1,7 @@
 // Calculating values of diet for each day
 let time23 = "T23:59:59";
 let time0 = "T00:00:00";
+// funkcja wyznacza ile czasu spedzilismy w danym przediale 
 export function calculateTime(
   dateStart,
   dateStop,
@@ -12,341 +13,243 @@ export function calculateTime(
   // 2 - full days?
   let _date1 = new Date(dateStart + timeStart);
   let _date2 = new Date(dateStop + timeStop);
-  // console.log("Data 1", _date1);
-  //  console.log("Data 2", _date2);
+  console.log("Data 1", _date1);
+   console.log("Data 2", _date2);
   let _diffValue = _date2.getTime() - _date1.getTime();
   let diff = (_diffValue / (1000 * 3600 * 24)).toFixed(2);
   // console.warn("Procent dnia spędzony w delegacji: ", diff);
-  let result;
+  let result = 0;
   switch (action) {
-    case 1:
-      if (diff < 0.33) {
-        return 0;
-      } else if (diff > 0.51) {
-        return 1;
-      } else {
-        return 0.5;
+    case 1: // tylko albo do pelnej delegacji albo do... koncowej
+      if (diff < 0.333) {
+        console.log("Brak diety");
+        result = 0.0;
+        return result;
+      } else if (diff >= 0.333 && diff <= 0.5) {
+        console.log("Przysługuje połowa diety");
+        result = 0.5;
+        return result;
+      } else if (diff > 0.5 && diff <= 1) {
+        console.log("Przysługuje plena dieta");
+        result = 1;
+        return result;
+      } else if (diff > 1) {
+        console.log("Przysługuje plena dieta plus dodatki");
+        let newTekst = diff.split(".");
+        let test1 = "0." + newTekst[1];
+        console.log(test1);
+        if (test1 <= 0.333 && test1 != 0) {
+          console.log("Mniejsz niz 8h 05 diety");
+          result = parseInt(newTekst[0]) + 0.5;
+        } else if (parseFloat(test1) > 0.333) {
+          console.log(test1);
+          console.log("Wiecej niz 8h pelna dieta");
+          result = parseInt(newTekst[0]) + 1;
+        } else {
+          result = parseInt(newTekst[0]);
+        }
+        console.log(newTekst);
       }
-    case 2:
-      return Math.round(diff);
+      else{
+        console.log("Czas w delegacji był rowny 0");
+        result = 0.0;
+        return result;
+      }
       break;
-    default:
-      return 0;
-      break;
+
+    case 2:// to jest do krajowego 
+      {
+        if (diff < 0.333) {
+            console.log("Brak diety");
+            result = 0.0;
+            return result;
+          } else if (diff >= 0.333 && diff <= 0.5) {
+            console.log("Przysługuje połowa diety");
+            result = 0.5;
+            return result;
+          } else if (diff > 0.5 && diff <= 1) {
+            console.log("Przysługuje plena dieta");
+            result = 1;
+            return result;
+          } else if (diff > 1) {
+            console.log("Przysługuje plena dieta plus dodatki");
+            let newTekst = diff.split(".");
+            let test1 = "0." + newTekst[1];
+            console.log(test1);
+            if (test1 <= 0.333 && test1 != 0) {
+              console.log("Mniejsz niz 8h 05 diety");
+              result = parseInt(newTekst[0]) + 0.5;
+            } else if (parseFloat(test1) > 0.333 &&test1 <= 0.5) {
+              console.log(test1);
+              console.log("Połowa diety");
+              result = parseInt(newTekst[0]) + 0.5;
+            }else if (parseFloat(test1) > 0.5) {
+                console.log(test1);
+                console.log("Pełna dieta diety");
+                result = parseInt(newTekst[0]) +1;
+                
+              
+            }
+            else{
+                result = parseInt(newTekst[0]);
+            }
+            console.log(newTekst);
+          }
+          else{
+            console.log("Czas w delegacji był rowny 0");
+            result = 0.0;
+            return result;
+          }
+          break; 
+      }
+      case 3:// to jest do delegacji zagranicznej
+      {
+        if (diff < 0.333 && diff!=0 ) {
+            console.log("Mniej niż 8h za granica");
+            result = 0.333;
+            return result;
+          } else if (diff >= 0.333 && diff <= 0.5) {
+            console.log("Przysługuje połowa diety  zagranicznej");
+            result = 0.5;
+            return result;
+          } else if (diff > 0.5 && diff <= 1) {
+            console.log("Przysługuje plena dieta  zagranicznej");
+            result = 1;
+            return result;
+          } else if (diff > 1) {
+            console.log("Przysługuje plena dieta plus dodatki  zagranicznej");
+            let newTekst = diff.split(".");
+            let test1 = "0." + newTekst[1];
+            console.log(test1);
+            if (test1 <= 0.333 && test1 != 0) {
+              console.log("Mniejsz niz 8h 05 diety  zagranicznej");
+              result = parseInt(newTekst[0]) + 0.333;
+            } else if (parseFloat(test1) > 0.333 &&test1 <= 0.5) {
+              console.log(test1);
+              console.log("Połowa diety  zagranicznej");
+              result = parseInt(newTekst[0]) + 0.5;
+            }else if (parseFloat(test1) > 0.5) {
+                console.log(test1);
+                console.log("Pełna dieta diety  zagranicznej");
+                result = parseInt(newTekst[0]) +1;
+                
+              
+            }
+            else{
+                result = parseInt(newTekst[0]);
+            }
+            console.log(newTekst);
+          }
+          else{
+            console.log("Czas w delegacji był rowny 0");
+            result = 0.0;
+            return result;
+          }
+          break;
+        }
+        case 4:// to jest do delegacji zagranicznej
+        {
+          if (diff < 0.333 && diff!=0 ) {
+              console.log("Nie pełny dzień:  połowa diety");
+              result = 0.5;
+              return result;
+            } else if (diff >= 0.333 && diff <= 1) {
+              console.log("Nie pełny dzień: pełna dieta");
+              result = 1;
+              return result;
+            } else if (diff > 1) {
+              console.log("Przysługuje plena dieta plus dodatki  zagranicznej");
+              let newTekst = diff.split(".");
+              let test1 = "0." + newTekst[1];
+              console.log(test1);
+              if (test1 <= 0.333 && test1 != 0) {
+                console.log("Mniej niz 8h");
+                result = parseInt(newTekst[0]) + 0.5;
+              } else if (parseFloat(test1) > 0.333 &&test1 <= 1) {
+                console.log(test1);
+                console.log("Połowa diety  zagranicznej");
+                result = parseInt(newTekst[0]) + 1;
+              
+                
+              }
+              else{
+                  result = parseInt(newTekst[0]);
+              }
+              console.log(newTekst);
+            }
+            else{
+              console.log("Czas w delegacji był rowny 0");
+              result = 0.0;
+              return result;
+            }
+            break;
+          }
   }
-  return null;
+  return result;
 }
 //////// Main function
 export function calcDays(
-  statestartDate,
-  statestartTime,
-  statestartDateAbroad,
-  statestartTimeAbroad,
-  statestopDateAbroad,
-  statestopTimeAbroad,
-  statestopDate,
-  statestopTime,
-  countryName
+  stateStartDate,
+  stateStartTime,
+  stateStartDateAbroad,
+  stateStartTimeAbroad,
+  stateStopDateAbroad,
+  stateStopTimeAbroad,
+  stateStopDate,
+  stateStopTime,
+  stateCountryName
 ) {
-  let dateStartPL = statestartDate;
-  let timeStartPL = "T" + statestartTime;
-  let dateStartAbroad = statestartDateAbroad;
-  let timeStartAbroad = "T" + statestartTimeAbroad;
-  let dateStopAbroad = statestopDateAbroad;
-  let timeStopAbroad = "T" + statestopTimeAbroad;
-  let dateStopPL = statestopDate;
-  let timeStopPL = "T" + statestopTime;
-  let timeTableInPL=[];
-  let timeTableAbroad=[]
-//   let currencyRate = this.state.bid;
-//   let dietValue = this.state.diet;
-//   let timeInPoland = [];
-//   let timeAbroad = [];
-//   let calcdietPL = 0;
-//   let calcdietOut = 0;
-  /// sumowanie w 2 tablicach wartosci diet dla PL i poza PL
-
-  // liczymy tylko polską delegacje teraz
-  console.clear();
-  console.log("Data rozpoczecia delegacji:", dateStartPL);
-  console.log("Data rozpoczecia delegacji:", dateStopPL);
-  if (countryName === "Polska") {
-    if (dateStartPL !== dateStopPL) {
-      console.log("Koniec delegacji innego dnia");
+    let dateStartPL = stateStartDate;
+    let timeStartPL = "T" + stateStartTime;
+    let dateStartAbroad = stateStartDateAbroad;
+    let timeStartAbroad = "T" + stateStartTimeAbroad;
+    let dateStopAbroad = stateStopDateAbroad;
+    let timeStopAbroad = "T" + stateStopTimeAbroad;
+    let dateStopPL = stateStopDate;
+    let timeStopPL = "T" + stateStopTime;
+    let countryName = stateCountryName;
+    let timeArrayPL=[]
+    let timeArrayAbroad=[]
+    console.clear();
+    console.log("Rozpoczynamy liczenie dla polskiej delegacji:")
+    if (countryName === "Polska") {
+         //////////////------------------ To jest OKEY-----------------///////////
       console.log(
-        "Czas w dniu delegacji:",
-        calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
+        "Czas w Polskiej delegacji:",
+        calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL,1)
       );
-      timeTableInPL.push(calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1))
-      var today = new Date(dateStartPL);
-      var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-      var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-      console.log("Data 2nd: ", nextDayShort);
-
-      if (dateStopPL === nextDayShort) {
-        console.log("Koniec jutro");
-        console.log(
-          "Czas w sotatnim dniu:",
-          calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
-        );
-        timeTableInPL.push(calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1))
-      } else {
-        console.log("Koniec wyjazdu w późniejszym terminie");
-        console.log(
-          "Pomiedzy wyjazdem a wiazdem::",
-          calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
-        );
-        timeTableInPL.push(calculateTime(nextDayShort, dateStopPL, time0, time0, 2))
-        console.log(
-          "Czas w ostatnim dniu delegacji:",
-          calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
-        );
-        timeTableInPL.push(calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1))
-      }
-    } else {
-      console.log("Koniec delegacji tego samego dnai co start");
-      console.log(
-        "Czas delegacji:",
-        calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL, 1)
-      );
-      timeTableInPL.push( calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL, 1))
+      timeArrayPL.push(calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL,1));
     }
-    console.warn("Tablica czasu w polsce:,",timeTableInPL)
-  }
-  //Jedziemy za granicę :D
-  else {
-    console.log("Wyjezdzamy z polski");
+    else{
 
-    //wyjazd za granice teo samego dnia co zaczynamy
-    if (dateStartPL === dateStartAbroad) {
-      console.log("Wyjazd w tym samym dniu");
+      console.log("Jedziemy za granice ziom")
+      console.log("Policzymy czas jaki byliśmy w polsce przed wyjazdem:")
       console.log(
-        "Czas delegacji w PL:",
-        calculateTime(
-          dateStartPL,
-          dateStartAbroad,
-          timeStartPL,
-          timeStartAbroad,
-          1
-        )
+        "Czas w Polskiej delegacji:",
+        calculateTime(dateStartPL, dateStartAbroad, timeStartPL, timeStartAbroad,2)
       );
-      timeTableInPL.push(calculateTime(
-        dateStartPL,
-        dateStartAbroad,
-        timeStartPL,
-        timeStartAbroad,
-        1
-      ));
-    } else {
-      console.log("Wyjazd w tym innym dniu");
+      //Dodanie pierwszego czasu w polsce
+      timeArrayPL.push(calculateTime(dateStartPL, dateStartAbroad, timeStartPL, timeStartAbroad,2));
       console.log(
-        "Czas delegacji w w pierwszym dniu w PL:",
-        calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
+        "Czas w zagranicznej delegacji:",
+        calculateTime(dateStartAbroad, dateStopAbroad, timeStartAbroad, timeStopAbroad,3)
       );
-      timeTableInPL.push(calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1));
-
-      // Sprawdzam czy wyjazd nastąpił kolejnego dnia
-      var today = new Date(dateStartPL);
-      var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-      var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-      console.log("Data 2nd: ", nextDayShort);
-      if (nextDayShort === dateStartAbroad) {
+      //Dodanie do tablicy czasu spedzonego poza granica
+      timeArrayAbroad.push(calculateTime(dateStartAbroad, dateStopAbroad, timeStartAbroad, timeStopAbroad,3))
+        /////
         console.log(
-          "Czas w drugim dniu przed wylotem:",
-          calculateTime(
-            nextDayShort,
-            dateStartAbroad,
-            time0,
-            timeStartAbroad,
-            1
-          )
+          "Czas w zagranicznej delegacji po powrocie do kraju:",
+          calculateTime(dateStopAbroad, dateStopPL, timeStopAbroad, timeStopPL,4)
         );
-        timeTableInPL.push(calculateTime(
-            nextDayShort,
-            dateStartAbroad,
-            time0,
-            timeStartAbroad,
-            1
-          ));
-      } else {
-        console.log("Wylot za granicę w późniejszym terminie");
-        console.log(
-          "Czas pomiedzy dniami do wylotu:",
-          calculateTime(nextDayShort, dateStartAbroad, time0, time0, 2)
-        );
-        timeTableInPL.push(calculateTime(nextDayShort, dateStartAbroad, time0, time0, 2));
-        console.log(
-          "Czas w ostatnim dniu przed wylotem:",
-          calculateTime(
-            dateStartAbroad,
-            dateStartAbroad,
-            time0,
-            timeStartAbroad,
-            1
-          )
-        );
-        timeTableInPL.push( calculateTime(
-            dateStartAbroad,
-            dateStartAbroad,
-            time0,
-            timeStartAbroad,
-            1
-          ));
-      }
+          //Dodanie drugiego czasu w polsce po powrocie z zagranicy
+          timeArrayPL.push(calculateTime(dateStopAbroad, dateStopPL, timeStopAbroad, timeStopPL,4));
     }
-console.warn("Czas spędzony w PL:",timeTableInPL)
-    // Woow policzyliśmy dni ile spedziliśmy na delegacji od poczatku do wyjazdu za granice :D
-    // Liczymy teraz czas jaki spędzimy za granicą!!
-
-    if (dateStartAbroad !== dateStopAbroad) {
-      console.warn("Powrót z zagranicy innego dnia");
-      // Sprawdzam czy powrot nastąpił kolejnego dnia
-      var today = new Date(dateStartAbroad);
-      var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-      var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-      console.log(
-        "Czas Jaki spedził za granicą pierwszego dnia: ",
-        calculateTime(dateStartAbroad, nextDayShort, timeStartAbroad, time0, 1)
-      );
-      timeTableAbroad.push( calculateTime(dateStartAbroad, nextDayShort, timeStartAbroad, time0, 1));
-      console.log("Data  druga powrotund: ", nextDayShort);
-
-      if (nextDayShort === dateStopAbroad) {
-        console.log(
-          "Czas Jaki spedził za granicą drugiego dnia: ",
-          calculateTime(nextDayShort, dateStopAbroad, time0, timeStopAbroad, 1)
-        );
-        timeTableAbroad.push(calculateTime(nextDayShort, dateStopAbroad, time0, timeStopAbroad, 1))
-      } else {
-        console.warn("Czas spedzony za granica dluzszy niz 24h");
-        console.error(
-          "Pomiedzy drugi - do ostatniego dnia czas",
-          calculateTime(nextDayShort, dateStopAbroad, time0, time0, 2)
-        );
-        timeTableAbroad.push(calculateTime(nextDayShort, dateStopAbroad, time0, time0, 2));
-        console.error(
-          "Czas w ostatnim dniu delegacji za granica:",
-          calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            time0,
-            timeStopAbroad,
-            1
-          )
-        );
-        timeTableAbroad.push( calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            time0,
-            timeStopAbroad,
-            1
-          ));
-      }
-    } else {
-      console.warn("Powrót z zagranicy tego samego dnia");
-      console.log(
-        "Czas pobytu za granicą:",
-        calculateTime(
-          dateStartAbroad,
-          dateStopAbroad,
-          timeStartAbroad,
-          timeStopAbroad,
-          1
-        )
-      );
-      timeTableAbroad.push(calculateTime(
-        dateStartAbroad,
-        dateStopAbroad,
-        timeStartAbroad,
-        timeStopAbroad,
-        1
-      ));
-    }
-    // sprawdzamy jaki czas po przyjezdzie z zagranicy spedził w Polsce na delegacji:
-    if (dateStopAbroad !== dateStopPL) {
-      // spradzamy czy zkonczenie delegacji nastąpiło w nastepny dzien od powrotu
-      console.log("Zakonczenie delegacji w inny dzien");
-      var today = new Date(dateStopAbroad);
-      var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-      var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-      console.log("Data  druga powrotund: ", nextDayShort);
-      if (nextDayShort === dateStopPL) {
-        console.warn("Zakonczenie delegacji w kolejnym dniu:");
-        console.log(
-          "Czas jaki spedził w dniu powrotu z zaranicy",
-          calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            timeStopAbroad,
-            time23,
-            1
-          )
-        
-        );
-        timeTableInPL.push(calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            timeStopAbroad,
-            time23,
-            1
-          ));
-        console.log(
-          "Czas do końca delegacji ostatni dzień",
-          calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
-          );
-          timeTableInPL.push(calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1));
-      } else {
-        console.warn("Zakonczenie kila dni po powrocie z zagranicy");
-        console.error(
-          "Czas jaki spedził w dniu powrotu z zaranicy",
-          calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            timeStopAbroad,
-            time23,
-            1
-          )
-        );
-        timeTableInPL.push(calculateTime(
-            dateStopAbroad,
-            dateStopAbroad,
-            timeStopAbroad,
-            time23,
-            1
-          ));
-
-        console.error(
-          "Czas w dniach pomiedzy powrotem a dniem koncowym",
-          calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
-          );
-              timeTableInPL.push(calculateTime(nextDayShort, dateStopPL, time0, time0, 2))
-        console.error(
-          "Czas do końca delegacji ostatni dzień",
-          calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
-        );
-        timeTableInPL.push(calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1))
-      }
-    } else {
-      console.warn(
-        "Czas jaki praocnwik spedzil w kraju po powrocie z zagranicy"
-      );
-      console.log(
-        "Czas w kraju po powrocie z zagranicy:",
-        calculateTime(dateStopAbroad, dateStopPL, timeStopAbroad, timeStopPL, 1)
-      );
-      timeTableInPL.push(calculateTime(dateStopAbroad, dateStopPL, timeStopAbroad, timeStopPL, 1));
-    }
-    //wyjazd za granice w pozniejszym terminie
-    //koniec delegacji w tym samym dniu co przyjezdzamy
-    //koniec delegacji w pozniejszym terminie
-  }
-  console.error("Suma czasu w polsce: ",timeTableInPL)
-  console.error("Suma czasu poza polska: ",timeTableAbroad)
-  const timeArrays=[timeTableInPL,timeTableAbroad];
-  return timeArrays;
+    console.warn("Czasy w PL:",timeArrayPL)
+    console.warn("Czasy w OUT PL:",timeArrayAbroad)
+    const result = [timeArrayPL,timeArrayAbroad];
+    return result;
 }
 
-function addToTable(value,table)
-{
-table.push(value);
+function addToTable(value, table) {
+  table.push(value);
 }

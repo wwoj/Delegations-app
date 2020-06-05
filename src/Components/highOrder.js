@@ -11,6 +11,7 @@ import Traveler from "../Components/traveler";
 import DelegationSumup from "../Components/delegationSumup";
 import Logo2 from "../Objects/Logo_2.png";
 import { calculateTime, calcDays } from "../Services/dietCalculations";
+import { calcRawDiets } from "../Services/dietCalcualtionsValue";
 //Library for pdf converting:
 import axios from "axios";
 import { saveAs } from "file-saver";
@@ -24,13 +25,13 @@ export default class Highorder extends Component {
     this.state = {
       allCountries: [],
       selectValue: "pln",
-      startDate: "2020-06-02", //new Date().toISOString().substr(0, 10),
+      startDate: "2020-06-03", //new Date().toISOString().substr(0, 10),
       startTime: "00:00", //new Date().toISOString().substr(11, 5),
-      startDateAbroad: "2020-06-02", // new Date().toISOString().substr(0, 10),
+      startDateAbroad: "2020-06-03", // new Date().toISOString().substr(0, 10),
       startTimeAbroad: "00:00", //new Date().toISOString().substr(11, 5),
-      stopDate: "2020-06-04", //new Date().toISOString().substr(0, 10),
+      stopDate: "2020-06-03", //new Date().toISOString().substr(0, 10),
       stopTime: "00:00", //new Date().toISOString().substr(11, 5),
-      stopDateAbroad: "2020-06-04", //new Date().toISOString().substr(0, 10),
+      stopDateAbroad: "2020-06-03", //new Date().toISOString().substr(0, 10),
       stopTimeAbroad: "00:00", //new Date().toISOString().substr(11, 5),
       bid: 1,
       dietOut: 30,
@@ -53,7 +54,7 @@ export default class Highorder extends Component {
       diet: 30,
       breakfastAmount: 0,
       dinnerAmount: 0,
-      sapperAmount: 0,
+      supperAmount: 0,
       amountOtherCurrency: 0,
       // Traveler data:
       name: "",
@@ -81,6 +82,8 @@ export default class Highorder extends Component {
       totalAdvance: 0,
       ///
       showAbroadDate: styleButton1,
+      //Refactoring:
+      timeArray: { timeDelPL: [], timeDelAbroad: [] }, // bede liczyl ile max jest sniadan i innych
     };
   }
   //Printing expense sheet to PDF
@@ -114,7 +117,7 @@ export default class Highorder extends Component {
         this.setState({ expenses: tempExpenses });
       })
       .then(() => {
-        this.calcExpenses();
+        //this.calcExpenses();
       });
     // console.log("Funkcja przeslana z parametrem name: ", name);
     // tempExpenses.push(name);
@@ -156,7 +159,7 @@ export default class Highorder extends Component {
         this.testHandleDiffDateAbroad();
       })
       .then(() => {
-        this.calcExpenses();
+        //this.calcExpenses();
       });
   };
   componentDidMount() {
@@ -197,7 +200,7 @@ export default class Highorder extends Component {
           this.testHandleDiffDateAbroad();
         })
         .then(() => {
-          this.calcExpenses();
+          //this.calcExpenses();
         });
     });
   };
@@ -235,7 +238,7 @@ export default class Highorder extends Component {
                 currency: result.currency,
               });
               this.testHandleDiffDateAbroad();
-              this.calcExpenses();
+              //this.calcExpenses();
             }
           );
         } else {
@@ -279,501 +282,53 @@ export default class Highorder extends Component {
     }
     // z,oemoc na coś tam chyba
   };
-  
+
   testHandleDiffDateAbroad = () => {
-    const testowa =calcDays(
-      this.state.startDate,
-      this.state.startTime,
-      this.state.startDateAbroad,
-      this.state.startTimeAbroad,
-      this.state.stopDateAbroad,
-      this.state.stopTimeAbroad,
-      this.state.stopDate,
-      this.state.stopTime,
-      this.state.country.country
-    );
-    console.log("Watosc tablic: ",testowa[0],testowa[1])
-  };
-  temp_testHandleDiffDateAbroad = () => {
-    let dateStartPL = this.state.startDate;
-    let timeStartPL = "T" + this.state.startTime;
-    let dateStartAbroad = this.state.startDateAbroad;
-    let timeStartAbroad = "T" + this.state.startTimeAbroad;
-    let dateStopAbroad = this.state.stopDateAbroad;
-    let timeStopAbroad = "T" + this.state.stopTimeAbroad;
-    let dateStopPL = this.state.stopDate;
-    let timeStopPL = "T" + this.state.stopTime;
-    let currencyRate = this.state.bid;
-    let dietValue = this.state.diet;
-    let timeInPoland = [];
-    let timeAbroad = [];
-    let calcdietPL = 0;
-    let calcdietOut = 0;
-    /// sumowanie w 2 tablicach wartosci diet dla PL i poza PL
-
-    // liczymy tylko polską delegacje teraz
-    console.clear();
-    console.log("Data rozpoczecia delegacji:", dateStartPL);
-    console.log("Data rozpoczecia delegacji:", dateStopPL);
-    if (this.state.country.country === "Polska") {
-      if (dateStartPL !== dateStopPL) {
-        console.log("Koniec delegacji innego dnia");
-        console.log(
-          "Czas w dniu delegacji:",
-          calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
-        );
-        var today = new Date(dateStartPL);
-        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-        console.log("Data 2nd: ", nextDayShort);
-
-        if (dateStopPL === nextDayShort) {
-          console.log("Koniec jutro");
-          console.log(
-            "Czas w sotatnim dniu:",
-            calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
-          );
-        } else {
-          console.log("Koniec wyjazdu w późniejszym terminie");
-          console.log(
-            "Pomiedzy wyjazdem a wiazdem::",
-            calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
-          );
-          console.log(
-            "Czas w ostatnim dniu delegacji:",
-            calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
-          );
-        }
-      } else {
-        console.log("Koniec delegacji tego samego dnai co start");
-        console.log(
-          "Czas delegacji:",
-          calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL, 1)
-        );
-      }
-    }
-    //Jedziemy za granicę :D
-    else {
-      console.log("Wyjezdzamy z polski");
-
-      //wyjazd za granice teo samego dnia co zaczynamy
-      if (dateStartPL === dateStartAbroad) {
-        console.log("Wyjazd w tym samym dniu");
-        console.log(
-          "Czas delegacji w PL:",
-          calculateTime(
-            dateStartPL,
-            dateStartAbroad,
-            timeStartPL,
-            timeStartAbroad,
-            1
-          )
-        );
-      } else {
-        console.log("Wyjazd w tym innym dniu");
-        console.log(
-          "Czas delegacji w w pierwszym dniu w PL:",
-          calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
-        );
-
-        // Sprawdzam czy wyjazd nastąpił kolejnego dnia
-        var today = new Date(dateStartPL);
-        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-        console.log("Data 2nd: ", nextDayShort);
-        if (nextDayShort === dateStartAbroad) {
-          console.log(
-            "Czas w drugim dniu przed wylotem:",
-            calculateTime(
-              nextDayShort,
-              dateStartAbroad,
-              time0,
-              timeStartAbroad,
-              1
-            )
-          );
-        } else {
-          console.log("Wylot za granicę w późniejszym terminie");
-          console.log(
-            "Czas pomiedzy dniami do wylotu:",
-            calculateTime(nextDayShort, dateStartAbroad, time0, time0, 2)
-          );
-          console.log(
-            "Czas w ostatnim dniu przed wylotem:",
-            calculateTime(
-              dateStartAbroad,
-              dateStartAbroad,
-              time0,
-              timeStartAbroad,
-              1
-            )
-          );
-        }
-      }
-
-      // Woow policzyliśmy dni ile spedziliśmy na delegacji od poczatku do wyjazdu za granice :D
-      // Liczymy teraz czas jaki spędzimy za granicą!!
-
-      if (dateStartAbroad !== dateStopAbroad) {
-        console.warn("Powrót z zagranicy innego dnia");
-        // Sprawdzam czy powrot nastąpił kolejnego dnia
-        var today = new Date(dateStartAbroad);
-        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-        console.log(
-          "Czas Jaki spedził za granicą pierwszego dnia: ",
-          calculateTime(
-            dateStartAbroad,
-            nextDayShort,
-            timeStartAbroad,
-            time0,
-            1
-          )
-        );
-        console.log("Data  druga powrotund: ", nextDayShort);
-
-        if (nextDayShort === dateStopAbroad) {
-          console.log(
-            "Czas Jaki spedził za granicą drugiego dnia: ",
-            calculateTime(
-              nextDayShort,
-              dateStopAbroad,
-              time0,
-              timeStopAbroad,
-              1
-            )
-          );
-        } else {
-          console.warn("Czas spedzony za granica dluzszy niz 24h");
-          console.error(
-            "Pomiedzy drugi - do ostatniego dnia czas",
-            calculateTime(nextDayShort, dateStopAbroad, time0, time0, 2)
-          );
-          console.error(
-            "Czas w ostatnim dniu delegacji za granica:",
-            calculateTime(
-              dateStopAbroad,
-              dateStopAbroad,
-              time0,
-              timeStopAbroad,
-              1
-            )
-          );
-        }
-      } else {
-        console.warn("Powrót z zagranicy tego samego dnia");
-        console.log(
-          "Czas pobytu za granicą:",
-          calculateTime(
-            dateStartAbroad,
-            dateStopAbroad,
-            timeStartAbroad,
-            timeStopAbroad,
-            1
-          )
-        );
-      }
-      // sprawdzamy jaki czas po przyjezdzie z zagranicy spedził w Polsce na delegacji:
-      if (dateStopAbroad !== dateStopPL) {
-        // spradzamy czy zkonczenie delegacji nastąpiło w nastepny dzien od powrotu
-        console.log("Zakonczenie delegacji w inny dzien");
-        var today = new Date(dateStopAbroad);
-        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
-        console.log("Data  druga powrotund: ", nextDayShort);
-        if (nextDayShort === dateStopPL) {
-          console.warn("Zakonczenie delegacji w kolejnym dniu:");
-          console.log(
-            "Czas jaki spedził w dniu powrotu z zaranicy",
-            calculateTime(
-              dateStopAbroad,
-              dateStopAbroad,
-              timeStopAbroad,
-              time23,
-              1
-            )
-          );
-          console.log(
-            "Czas do końca delegacji ostatni dzień",
-            calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
-          );
-        } else {
-          console.warn("Zakonczenie kila dni po powrocie z zagranicy");
-          console.error(
-            "Czas jaki spedził w dniu powrotu z zaranicy",
-            calculateTime(
-              dateStopAbroad,
-              dateStopAbroad,
-              timeStopAbroad,
-              time23,
-              1
-            )
-          );
-
-          console.error(
-            "Czas w dniach pomiedzy powrotem a dniem koncowym",
-            calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
-          );
-          console.error(
-            "Czas do końca delegacji ostatni dzień",
-            calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
-          );
-        }
-      } else {
-        console.warn(
-          "Czas jaki praocnwik spedzil w kraju po powrocie z zagranicy"
-        );
-        console.log(
-          "Czas w kraju po powrocie z zagranicy:",
-          calculateTime(
-            dateStopAbroad,
-            dateStopPL,
-            timeStopAbroad,
-            timeStopPL,
-            1
-          )
-        );
-      }
-      //wyjazd za granice w pozniejszym terminie
-      //koniec delegacji w tym samym dniu co przyjezdzamy
-      //koniec delegacji w pozniejszym terminie
-    }
-  };
-
-  testHandleDiffDateAbroad1 = () => {
-    let dateStartPL = this.state.startDate;
-    let timeStartPL = "T" + this.state.startTime;
-    let dateStartAbroad = this.state.startDateAbroad;
-    let timeStartAbroad = "T" + this.state.startTimeAbroad;
-    let dateStopAbroad = this.state.stopDateAbroad;
-    let timeStopAbroad = "T" + this.state.stopTimeAbroad;
-    let dateStopPL = this.state.stopDate;
-    let timeStopPL = "T" + this.state.stopTime;
-    let currencyRate = this.state.bid;
-    let dietValue = this.state.diet;
-    let timeInPoland = [];
-    let timeAbroad = [];
-    let calcdietPL = 0;
-    let calcdietOut = 0;
-
-    // liczymy tylko polską delegacje teraz
-    if (this.state.country.country === "Polska") {
-      if (dateStartPL !== dateStopPL) {
-        console.log("Koniec delegacji tego samego dnia");
-      } else {
-        console.log("Koniec delegacji nie tego samego dnai co start");
-      }
-    }
-    if (dateStartPL !== dateStartAbroad) {
-      //Sprawdeznie czasu zostal odo konca dnia w Polsce
-      timeInPoland.push(
-        calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
+    const timePromise = new Promise((resolve, reject) => {
+      const calcTimeResult = calcDays(
+        this.state.startDate,
+        this.state.startTime,
+        this.state.startDateAbroad,
+        this.state.startTimeAbroad,
+        this.state.stopDateAbroad,
+        this.state.stopTimeAbroad,
+        this.state.stopDate,
+        this.state.stopTime,
+        this.state.country.country
       );
-
-      // // wyznaczanie kolejnej dnia daty
-      // let datatoday = new Date(this.state.startDate);
-      // let datatodays = datatoday.setDate(new Date(datatoday).getDate() + 1);
-      // let todate = new Date(datatodays).toISOString().substr(0, 10);
-      // console.log("Zmiana tego czasu toooo: ", todate);
-      console.log(
-        "Wyznaczanie diety podacz kolejnych dni delegacji przed wyjazdem:"
-      );
-      timeInPoland.push(
-        calculateTime(dateStartPL, dateStartAbroad, time23, timeStartAbroad)
-      );
-    } else {
-      //Wyjazd za granice tego samego dnia
-      console.log("Wyjazd pracownika pozaPolske w dniu rozpoczecia delegacji");
-      timeInPoland.push(
-        calculateTime(dateStartPL, dateStartPL, timeStartPL, timeStartAbroad)
-      );
-      console.warn("Czas spędzony w pierwszym dniu:", timeInPoland[0]);
-      if (timeInPoland[0] >= 0.5) {
-        console.log("Pracownikowi przysługuje za to: 1.0 diety");
-      } else if (timeInPoland[0] > 0.33 && timeInPoland[0] < 0.5) {
-        console.log("Pracownikowi przysługuje za to: 0.5 diety");
-      } else {
-        console.log("Pracownikowi przysługuje za to: 0.0 diety");
-      }
-    }
-    /////////////////////////////Liczenie delegacji zagranicznej!!
-    if (dateStartAbroad !== dateStopAbroad) {
-      console.log("Delegacja za granica trwala dluzej niz 1 dzien");
-      timeAbroad.push(
-        calculateTime(dateStartAbroad, dateStartAbroad, timeStartAbroad, time23)
-      );
-      //Liczenie reszty dni:
-      console.log("Liczba delegacji po pierwszym dniu:");
-      timeAbroad.push(
-        calculateTime(dateStartAbroad, dateStopAbroad, time23, timeStopAbroad)
-      );
-    } else {
-      console.log("Czas powrotu z zagranicy tego samego dnia co wyjazd");
-      timeAbroad.push(
-        calculateTime(
-          dateStartAbroad,
-          dateStopAbroad,
-          timeStartAbroad,
-          timeStopAbroad
-        )
-      );
-    }
-    // Liczenie Delegacji koncowej w polsce po powrocie!
-    // Zakonczenie delegacji tego samego dnia co powrot z zagranicy!
-    if (dateStopAbroad !== dateStopPL) {
-      console.log("Koniec delegacji pozniej niz powrot");
-      timeInPoland.push(
-        calculateTime(dateStopAbroad, dateStopAbroad, timeStopAbroad, time23)
-      );
-      timeInPoland.push(
-        calculateTime(dateStopAbroad, dateStopPL, time23, timeStopPL)
-      );
-    } else {
-      //Delegacja zakonczona tgo samego dnia
-      console.log(
-        "Zakonczenie delegacji tego samego dnia co powrot z zagranicy"
-      );
-      timeInPoland.push(
-        calculateTime(dateStopAbroad, dateStopAbroad, dateStopPL, dateStopPL)
-      );
-    }
-
-    console.log("Nasza tablicza Polska: ", timeInPoland);
-    console.log("Nasza tablicza zagraniczna: ", timeAbroad);
-    // Sumowanie Diet polsich:
-    ////////////----------------To jest zly pomysl bo zle liczy
-    timeInPoland.forEach((element) => {
-      calcdietPL += element;
-    });
-    console.log("Czas spędzony w polsce to: ", calcdietPL);
-    timeAbroad.forEach((element) => {
-      calcdietOut += element;
-    });
-    console.log("Czas spędzony za granica: ", calcdietOut);
-    ////////////----------------To jest zly pomysl bo zle liczy
-    // Zwrocimy tylko duzo: diety w PL diety w Poza PL i sume.
-
-    // let plnDietPL = calcdietPL * 30;
-    // console.warn("Z PL: ", plnDietPL);
-    // let cashAbroat = (calcdietOut * dietValue).toFixed(2);
-    // console.warn("Waluta: ", currencyRate);
-    // console.warn("dieta: ", dietValue);
-    // console.warn("Z po przeliczeniu: ", cashAbroat);
-
-    // let cashAbroatToPLN = cashAbroat * currencyRate;
-    // let cashAboratRounded = cashAbroatToPLN.toFixed(2);
-    // let sumInPLN = (plnDietPL + cashAbroatToPLN).toFixed(2);
-    // let resPLN = sumInPLN;
-    // console.log("Wynik sumy to: ", sumInPLN, ",typ: ", typeof sumInPLN);
-    // this.setState({
-    //   amountdietPL: plnDietPL,
-    //   amountdietOut: cashAboratRounded,
-    //   amountOtherCurrency: cashAbroat, // calosc bez odliczen
-    //   sumOfDiet: resPLN,
-    // });
-    // console.log(
-    //   "Wynik sumy to: ",
-    //   this.state.sumOfDiet,
-    //   ",typ: ",
-    //   typeof this.state.sumOfDiet
-    // );
-  };
-
-  calcExpenses = () => {
-    //Obliczanie kosztów posiłków z diety
-    var cosik = this.state.breakfastAmount;
-    var cosik1 = this.state.dinnerAmount;
-    var cosik2 = this.state.sapperAmount;
-    let mealsTotalCost = 0;
-    let employeeCosts = 0;
-    let campanyCardCosts = 0;
-    let campanyTransfer = 0;
-    let advanceCost = 0;
-    let _sumOfDietMinusMeals = 0;
-    let _employeeTotalCost = 0;
-
-    let _employerrReturnCost = 0;
-
-    let _totalExpenses = 0;
-    var test = new Promise(function (resolve, reject) {
-      resolve("Send");
-    });
-    test
-      .then((resu) => {
-        cosik = this.state.breakfastAmount;
-        cosik1 = this.state.dinnerAmount;
-        cosik2 = this.state.sapperAmount;
-        console.log(resu);
-        console.warn(
-          "woow:" + mealsTotalCost + " sniadania: " + cosik,
-          " obiady:  " + cosik1 + " ,Kolacje:" + cosik2
-        );
-      })
-      .then(() => {
-        mealsTotalCost =
-          this.state.diet *
-          (this.state.breakfastAmount * 0.15 +
-            (parseInt(this.state.dinnerAmount) +
-              parseInt(this.state.sapperAmount)) *
-              0.3);
-      })
-      .then(() => {
-        //Zapisywanie do state posiłków
-        this.setState({ mealsCost: mealsTotalCost });
-      })
-      .then(() => {
-        const expenses = this.state.expenses;
-        employeeCosts = 0;
-        campanyCardCosts = 0;
-        campanyTransfer = 0;
-        advanceCost = 0;
-        expenses.forEach((element) => {
-          console.log(element);
-          if (element.paymentOption === "Pracownik") {
-            employeeCosts += parseFloat(element.totalCost);
-          } else if (element.paymentOption === "Karta firmowa") {
-            campanyCardCosts += parseFloat(element.totalCost);
-          } else if (element.paymentOption === "Przelew") {
-            campanyTransfer += parseFloat(element.totalCost);
-          } else if (element.type === "Zaliczka") {
-            advanceCost += parseFloat(element.totalCost);
-          }
-        });
-        console.warn(advanceCost);
-      })
-      .then(() => {
-        if (this.state.country.country === "Polska") {
-          console.warn("///////////--To w Polsce-\\\\\\\\\\\\\\\\");
-          _sumOfDietMinusMeals = mealsTotalCost.toFixed(2);
-        } else {
-          console.warn("///////////--To poza Polska-\\\\\\\\\\\\\\\\");
-          // _sumOfDietMinusMeals= ((this.state.amountdietOut-mealsTotalCost)*this.state.bid+this.state.amountdietPL).toFixed(2);
-          _sumOfDietMinusMeals =
-            this.state.amountOtherCurrency - mealsTotalCost;
-        }
-        //Łączny koszt delegacji = diety - posiłki + wydatki poza zaliczkami
-        _totalExpenses =
-          this.state.sumOfDiet -
-          mealsTotalCost +
-          employeeCosts +
-          campanyCardCosts +
-          campanyTransfer;
-        _employeeTotalCost =
-          this.state.sumOfDiet - mealsTotalCost + employeeCosts;
-        _employerrReturnCost = _employeeTotalCost - advanceCost;
-      })
-      .then(() => {
+      if (calcTimeResult.length != 0) {
         this.setState({
-          totalExpenses: _totalExpenses,
-          employeeTotalCost: _employeeTotalCost,
-          employerrReturnCost: _employerrReturnCost,
-          campanyCardCosts: campanyCardCosts,
-          campanyTransfer: campanyTransfer,
-          sumOfDietMinusMeals: _sumOfDietMinusMeals,
-          totalAdvance: advanceCost,
+          timeArray: {
+            timeDelPL: calcTimeResult[0],
+            timeDelAbroad: calcTimeResult[1],
+          },
         });
-      });
+        resolve(calcTimeResult);
+      }
+    });
+    timePromise.then((res) => {
+    // Obliczanie kosztow delegacji
+      const delegationCosts = calcRawDiets(
+        this.state.timeArray.timeDelPL,
+        this.state.timeArray.timeDelAbroad,
+        this.state.diet,
+        this.state.bid,
+        0,
+        0,
+        0,
+        this.state.breakfastAmount,
+        this.state.dinnerAmount,
+        this.state.supperAmount
+      );
+      return delegationCosts;
+    })
+    .then((res)=>{
+      console.warn("Sprawdzam: ",res)
+      // ustawianie kosztow delegacji do state!
+    });
   };
+
+  
   handleInputStartDate = (event) => {
     this.setState({ startDate: event.target.value });
   };
