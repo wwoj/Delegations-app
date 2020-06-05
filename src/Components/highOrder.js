@@ -10,6 +10,12 @@ import DietCalculator from "../Components/dietCalc";
 import Traveler from "../Components/traveler";
 import DelegationSumup from "../Components/delegationSumup";
 import Logo2 from "../Objects/Logo_2.png";
+import { calculateTime, calcDays } from "../Services/dietCalculations";
+//Library for pdf converting:
+import axios from "axios";
+import { saveAs } from "file-saver";
+
+////
 let time23 = "T23:59:59";
 let time0 = "T00:00:00";
 export default class Highorder extends Component {
@@ -18,19 +24,19 @@ export default class Highorder extends Component {
     this.state = {
       allCountries: [],
       selectValue: "pln",
-      startDate: new Date().toISOString().substr(0, 10),
-      startTime: new Date().toISOString().substr(11, 5),
-      startDateAbroad: new Date().toISOString().substr(0, 10),
-      startTimeAbroad: new Date().toISOString().substr(11, 5),
-      stopDate: new Date().toISOString().substr(0, 10),
-      stopTime: new Date().toISOString().substr(11, 5),
-      stopDateAbroad: new Date().toISOString().substr(0, 10),
-      stopTimeAbroad: new Date().toISOString().substr(11, 5),
+      startDate: "2020-06-02", //new Date().toISOString().substr(0, 10),
+      startTime: "00:00", //new Date().toISOString().substr(11, 5),
+      startDateAbroad: "2020-06-02", // new Date().toISOString().substr(0, 10),
+      startTimeAbroad: "00:00", //new Date().toISOString().substr(11, 5),
+      stopDate: "2020-06-04", //new Date().toISOString().substr(0, 10),
+      stopTime: "00:00", //new Date().toISOString().substr(11, 5),
+      stopDateAbroad: "2020-06-04", //new Date().toISOString().substr(0, 10),
+      stopTimeAbroad: "00:00", //new Date().toISOString().substr(11, 5),
       bid: 1,
       dietOut: 30,
       dietPL: 30,
       accommodation: 0,
-      country: {},
+      country: { country: "Polska" },
       countryData: {},
       currency: "PLN",
 
@@ -77,8 +83,28 @@ export default class Highorder extends Component {
       showAbroadDate: styleButton1,
     };
   }
+  //Printing expense sheet to PDF
+  createAndDownloadPdf = () => {
+    axios
+      .post(
+        "https://excellent-capable-vulcanodon.glitch.me/create-pdf",
+        this.state
+      )
+      .then(() =>
+        axios.get("https://excellent-capable-vulcanodon.glitch.me/fetch-pdf", {
+          responseType: "blob",
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+
+        saveAs(pdfBlob, "newPdf.pdf");
+      });
+  };
+  ////////////////
   addExpense = (name) => {
     let tempExpenses = [...this.state.expenses];
+    console.log(this.state.expenses);
     let test = new Promise(function (resolve, reject) {
       resolve("Just to make promise");
     });
@@ -193,6 +219,7 @@ export default class Highorder extends Component {
         });
         console.log("Znalezione i przekazane", foundCountry);
         this.setState({ country: foundCountry });
+        console.log("To ustawiam do state:", this.state.country);
         return foundCountry;
       })
       .then((result) => {
@@ -252,48 +279,268 @@ export default class Highorder extends Component {
     }
     // z,oemoc na coś tam chyba
   };
-  testHandleDiffDate = () => {
-    // To set two dates to two variables
+  
+  testHandleDiffDateAbroad = () => {
+    const testowa =calcDays(
+      this.state.startDate,
+      this.state.startTime,
+      this.state.startDateAbroad,
+      this.state.startTimeAbroad,
+      this.state.stopDateAbroad,
+      this.state.stopTimeAbroad,
+      this.state.stopDate,
+      this.state.stopTime,
+      this.state.country.country
+    );
+    console.log("Watosc tablic: ",testowa[0],testowa[1])
+  };
+  temp_testHandleDiffDateAbroad = () => {
+    let dateStartPL = this.state.startDate;
+    let timeStartPL = "T" + this.state.startTime;
+    let dateStartAbroad = this.state.startDateAbroad;
+    let timeStartAbroad = "T" + this.state.startTimeAbroad;
+    let dateStopAbroad = this.state.stopDateAbroad;
+    let timeStopAbroad = "T" + this.state.stopTimeAbroad;
+    let dateStopPL = this.state.stopDate;
+    let timeStopPL = "T" + this.state.stopTime;
+    let currencyRate = this.state.bid;
+    let dietValue = this.state.diet;
+    let timeInPoland = [];
+    let timeAbroad = [];
+    let calcdietPL = 0;
+    let calcdietOut = 0;
+    /// sumowanie w 2 tablicach wartosci diet dla PL i poza PL
 
-    // to jest dla delegacji polskiej
-    let data1 = this.state.startDate;
-    let time1 = this.state.startTime;
-    let data2 = this.state.stopDate;
-    let time2 = this.state.stopTime;
-    var date1 = new Date(data1 + " " + time1 + ":00");
-    var date1a = new Date(data1 + " 23:59:59");
-    var date2a = new Date(data2 + " 00:00:00");
-    var date3a = new Date(data2 + " " + time2 + ":00");
+    // liczymy tylko polską delegacje teraz
+    console.clear();
+    console.log("Data rozpoczecia delegacji:", dateStartPL);
+    console.log("Data rozpoczecia delegacji:", dateStopPL);
+    if (this.state.country.country === "Polska") {
+      if (dateStartPL !== dateStopPL) {
+        console.log("Koniec delegacji innego dnia");
+        console.log(
+          "Czas w dniu delegacji:",
+          calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
+        );
+        var today = new Date(dateStartPL);
+        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
+        console.log("Data 2nd: ", nextDayShort);
 
-    var Difference_In_Time1 = date1a.getTime() - date1.getTime();
-    var Difference_In_Days1a = (
-      Difference_In_Time1 /
-      (1000 * 3600 * 24)
-    ).toFixed(2);
-    console.warn("Roznica czasu to: ", Difference_In_Days1a);
+        if (dateStopPL === nextDayShort) {
+          console.log("Koniec jutro");
+          console.log(
+            "Czas w sotatnim dniu:",
+            calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
+          );
+        } else {
+          console.log("Koniec wyjazdu w późniejszym terminie");
+          console.log(
+            "Pomiedzy wyjazdem a wiazdem::",
+            calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
+          );
+          console.log(
+            "Czas w ostatnim dniu delegacji:",
+            calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
+          );
+        }
+      } else {
+        console.log("Koniec delegacji tego samego dnai co start");
+        console.log(
+          "Czas delegacji:",
+          calculateTime(dateStartPL, dateStopPL, timeStartPL, timeStopPL, 1)
+        );
+      }
+    }
+    //Jedziemy za granicę :D
+    else {
+      console.log("Wyjezdzamy z polski");
 
-    var Difference_In_Time2 = date2a.getTime() - date1a.getTime();
-    var Difference_In_Days2a = (
-      Difference_In_Time2 /
-      (1000 * 3600 * 24)
-    ).toFixed(0);
-    console.warn("Roznica czasu to: ", Difference_In_Days2a);
-    var Difference_In_Time3 = date3a.getTime() - date2a.getTime();
-    var Difference_In_Days3a = (
-      Difference_In_Time3 /
-      (1000 * 3600 * 24)
-    ).toFixed(2);
-    console.warn("Roznica czasu to: ", Difference_In_Days3a);
-    if (Difference_In_Days1a >= 0.33 && Difference_In_Days1a <= 0.5) {
-      console.log("Przysluguje 0.5 diety");
-    } else if (Difference_In_Days1a > 0.5) {
-      console.log("Przysluguje cala dieta");
-    } else {
-      console.log("Nie Przysluguje dieta");
+      //wyjazd za granice teo samego dnia co zaczynamy
+      if (dateStartPL === dateStartAbroad) {
+        console.log("Wyjazd w tym samym dniu");
+        console.log(
+          "Czas delegacji w PL:",
+          calculateTime(
+            dateStartPL,
+            dateStartAbroad,
+            timeStartPL,
+            timeStartAbroad,
+            1
+          )
+        );
+      } else {
+        console.log("Wyjazd w tym innym dniu");
+        console.log(
+          "Czas delegacji w w pierwszym dniu w PL:",
+          calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
+        );
+
+        // Sprawdzam czy wyjazd nastąpił kolejnego dnia
+        var today = new Date(dateStartPL);
+        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
+        console.log("Data 2nd: ", nextDayShort);
+        if (nextDayShort === dateStartAbroad) {
+          console.log(
+            "Czas w drugim dniu przed wylotem:",
+            calculateTime(
+              nextDayShort,
+              dateStartAbroad,
+              time0,
+              timeStartAbroad,
+              1
+            )
+          );
+        } else {
+          console.log("Wylot za granicę w późniejszym terminie");
+          console.log(
+            "Czas pomiedzy dniami do wylotu:",
+            calculateTime(nextDayShort, dateStartAbroad, time0, time0, 2)
+          );
+          console.log(
+            "Czas w ostatnim dniu przed wylotem:",
+            calculateTime(
+              dateStartAbroad,
+              dateStartAbroad,
+              time0,
+              timeStartAbroad,
+              1
+            )
+          );
+        }
+      }
+
+      // Woow policzyliśmy dni ile spedziliśmy na delegacji od poczatku do wyjazdu za granice :D
+      // Liczymy teraz czas jaki spędzimy za granicą!!
+
+      if (dateStartAbroad !== dateStopAbroad) {
+        console.warn("Powrót z zagranicy innego dnia");
+        // Sprawdzam czy powrot nastąpił kolejnego dnia
+        var today = new Date(dateStartAbroad);
+        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
+        console.log(
+          "Czas Jaki spedził za granicą pierwszego dnia: ",
+          calculateTime(
+            dateStartAbroad,
+            nextDayShort,
+            timeStartAbroad,
+            time0,
+            1
+          )
+        );
+        console.log("Data  druga powrotund: ", nextDayShort);
+
+        if (nextDayShort === dateStopAbroad) {
+          console.log(
+            "Czas Jaki spedził za granicą drugiego dnia: ",
+            calculateTime(
+              nextDayShort,
+              dateStopAbroad,
+              time0,
+              timeStopAbroad,
+              1
+            )
+          );
+        } else {
+          console.warn("Czas spedzony za granica dluzszy niz 24h");
+          console.error(
+            "Pomiedzy drugi - do ostatniego dnia czas",
+            calculateTime(nextDayShort, dateStopAbroad, time0, time0, 2)
+          );
+          console.error(
+            "Czas w ostatnim dniu delegacji za granica:",
+            calculateTime(
+              dateStopAbroad,
+              dateStopAbroad,
+              time0,
+              timeStopAbroad,
+              1
+            )
+          );
+        }
+      } else {
+        console.warn("Powrót z zagranicy tego samego dnia");
+        console.log(
+          "Czas pobytu za granicą:",
+          calculateTime(
+            dateStartAbroad,
+            dateStopAbroad,
+            timeStartAbroad,
+            timeStopAbroad,
+            1
+          )
+        );
+      }
+      // sprawdzamy jaki czas po przyjezdzie z zagranicy spedził w Polsce na delegacji:
+      if (dateStopAbroad !== dateStopPL) {
+        // spradzamy czy zkonczenie delegacji nastąpiło w nastepny dzien od powrotu
+        console.log("Zakonczenie delegacji w inny dzien");
+        var today = new Date(dateStopAbroad);
+        var nextDayLong = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        var nextDayShort = nextDayLong.toISOString().substr(0, 10);
+        console.log("Data  druga powrotund: ", nextDayShort);
+        if (nextDayShort === dateStopPL) {
+          console.warn("Zakonczenie delegacji w kolejnym dniu:");
+          console.log(
+            "Czas jaki spedził w dniu powrotu z zaranicy",
+            calculateTime(
+              dateStopAbroad,
+              dateStopAbroad,
+              timeStopAbroad,
+              time23,
+              1
+            )
+          );
+          console.log(
+            "Czas do końca delegacji ostatni dzień",
+            calculateTime(nextDayShort, dateStopPL, time0, timeStopPL, 1)
+          );
+        } else {
+          console.warn("Zakonczenie kila dni po powrocie z zagranicy");
+          console.error(
+            "Czas jaki spedził w dniu powrotu z zaranicy",
+            calculateTime(
+              dateStopAbroad,
+              dateStopAbroad,
+              timeStopAbroad,
+              time23,
+              1
+            )
+          );
+
+          console.error(
+            "Czas w dniach pomiedzy powrotem a dniem koncowym",
+            calculateTime(nextDayShort, dateStopPL, time0, time0, 2)
+          );
+          console.error(
+            "Czas do końca delegacji ostatni dzień",
+            calculateTime(dateStopPL, dateStopPL, time0, timeStopPL, 1)
+          );
+        }
+      } else {
+        console.warn(
+          "Czas jaki praocnwik spedzil w kraju po powrocie z zagranicy"
+        );
+        console.log(
+          "Czas w kraju po powrocie z zagranicy:",
+          calculateTime(
+            dateStopAbroad,
+            dateStopPL,
+            timeStopAbroad,
+            timeStopPL,
+            1
+          )
+        );
+      }
+      //wyjazd za granice w pozniejszym terminie
+      //koniec delegacji w tym samym dniu co przyjezdzamy
+      //koniec delegacji w pozniejszym terminie
     }
   };
 
-  testHandleDiffDateAbroad = () => {
+  testHandleDiffDateAbroad1 = () => {
     let dateStartPL = this.state.startDate;
     let timeStartPL = "T" + this.state.startTime;
     let dateStartAbroad = this.state.startDateAbroad;
@@ -309,11 +556,18 @@ export default class Highorder extends Component {
     let calcdietPL = 0;
     let calcdietOut = 0;
 
-    // liczymy tylko polskie diety przed wyjazdem!
+    // liczymy tylko polską delegacje teraz
+    if (this.state.country.country === "Polska") {
+      if (dateStartPL !== dateStopPL) {
+        console.log("Koniec delegacji tego samego dnia");
+      } else {
+        console.log("Koniec delegacji nie tego samego dnai co start");
+      }
+    }
     if (dateStartPL !== dateStartAbroad) {
       //Sprawdeznie czasu zostal odo konca dnia w Polsce
       timeInPoland.push(
-        calculateFullDays(dateStartPL, dateStartPL, timeStartPL, time23)
+        calculateTime(dateStartPL, dateStartPL, timeStartPL, time23, 1)
       );
 
       // // wyznaczanie kolejnej dnia daty
@@ -325,45 +579,38 @@ export default class Highorder extends Component {
         "Wyznaczanie diety podacz kolejnych dni delegacji przed wyjazdem:"
       );
       timeInPoland.push(
-        calculateFullDays(dateStartPL, dateStartAbroad, time23, timeStartAbroad)
+        calculateTime(dateStartPL, dateStartAbroad, time23, timeStartAbroad)
       );
     } else {
       //Wyjazd za granice tego samego dnia
-      console.log("Wyjazd teog samego dnia");
+      console.log("Wyjazd pracownika pozaPolske w dniu rozpoczecia delegacji");
       timeInPoland.push(
-        calculateFullDays(
-          dateStartPL,
-          dateStartPL,
-          timeStartPL,
-          timeStartAbroad
-        )
+        calculateTime(dateStartPL, dateStartPL, timeStartPL, timeStartAbroad)
       );
+      console.warn("Czas spędzony w pierwszym dniu:", timeInPoland[0]);
+      if (timeInPoland[0] >= 0.5) {
+        console.log("Pracownikowi przysługuje za to: 1.0 diety");
+      } else if (timeInPoland[0] > 0.33 && timeInPoland[0] < 0.5) {
+        console.log("Pracownikowi przysługuje za to: 0.5 diety");
+      } else {
+        console.log("Pracownikowi przysługuje za to: 0.0 diety");
+      }
     }
     /////////////////////////////Liczenie delegacji zagranicznej!!
     if (dateStartAbroad !== dateStopAbroad) {
       console.log("Delegacja za granica trwala dluzej niz 1 dzien");
       timeAbroad.push(
-        calculateFullDays(
-          dateStartAbroad,
-          dateStartAbroad,
-          timeStartAbroad,
-          time23
-        )
+        calculateTime(dateStartAbroad, dateStartAbroad, timeStartAbroad, time23)
       );
       //Liczenie reszty dni:
       console.log("Liczba delegacji po pierwszym dniu:");
       timeAbroad.push(
-        calculateFullDays(
-          dateStartAbroad,
-          dateStopAbroad,
-          time23,
-          timeStopAbroad
-        )
+        calculateTime(dateStartAbroad, dateStopAbroad, time23, timeStopAbroad)
       );
     } else {
       console.log("Czas powrotu z zagranicy tego samego dnia co wyjazd");
       timeAbroad.push(
-        calculateFullDays(
+        calculateTime(
           dateStartAbroad,
           dateStopAbroad,
           timeStartAbroad,
@@ -376,15 +623,10 @@ export default class Highorder extends Component {
     if (dateStopAbroad !== dateStopPL) {
       console.log("Koniec delegacji pozniej niz powrot");
       timeInPoland.push(
-        calculateFullDays(
-          dateStopAbroad,
-          dateStopAbroad,
-          timeStopAbroad,
-          time23
-        )
+        calculateTime(dateStopAbroad, dateStopAbroad, timeStopAbroad, time23)
       );
       timeInPoland.push(
-        calculateFullDays(dateStopAbroad, dateStopPL, time23, timeStopPL)
+        calculateTime(dateStopAbroad, dateStopPL, time23, timeStopPL)
       );
     } else {
       //Delegacja zakonczona tgo samego dnia
@@ -392,19 +634,14 @@ export default class Highorder extends Component {
         "Zakonczenie delegacji tego samego dnia co powrot z zagranicy"
       );
       timeInPoland.push(
-        calculateFullDays(
-          dateStopAbroad,
-          dateStopAbroad,
-          dateStopPL,
-          dateStopPL
-        )
+        calculateTime(dateStopAbroad, dateStopAbroad, dateStopPL, dateStopPL)
       );
     }
 
     console.log("Nasza tablicza Polska: ", timeInPoland);
     console.log("Nasza tablicza zagraniczna: ", timeAbroad);
     // Sumowanie Diet polsich:
-
+    ////////////----------------To jest zly pomysl bo zle liczy
     timeInPoland.forEach((element) => {
       calcdietPL += element;
     });
@@ -413,31 +650,33 @@ export default class Highorder extends Component {
       calcdietOut += element;
     });
     console.log("Czas spędzony za granica: ", calcdietOut);
+    ////////////----------------To jest zly pomysl bo zle liczy
     // Zwrocimy tylko duzo: diety w PL diety w Poza PL i sume.
-    let plnDietPL = calcdietPL * 30;
-    console.warn("Z PL: ", plnDietPL);
-    let cashAbroat = (calcdietOut * dietValue).toFixed(2);
-    console.warn("Waluta: ", currencyRate);
-    console.warn("dieta: ", dietValue);
-    console.warn("Z po przeliczeniu: ", cashAbroat);
 
-    let cashAbroatToPLN = cashAbroat * currencyRate;
-    let cashAboratRounded = cashAbroatToPLN.toFixed(2);
-    let sumInPLN = (plnDietPL + cashAbroatToPLN).toFixed(2);
-    let resPLN = parseInt(sumInPLN);
-    console.log("Wynik sumy to: ", sumInPLN, ",typ: ", typeof sumInPLN);
-    this.setState({
-      amountdietPL: plnDietPL,
-      amountdietOut: cashAboratRounded,
-      amountOtherCurrency: cashAbroat,
-      sumOfDiet: resPLN,
-    });
-    console.log(
-      "Wynik sumy to: ",
-      this.state.sumOfDiet,
-      ",typ: ",
-      typeof this.state.sumOfDiet
-    );
+    // let plnDietPL = calcdietPL * 30;
+    // console.warn("Z PL: ", plnDietPL);
+    // let cashAbroat = (calcdietOut * dietValue).toFixed(2);
+    // console.warn("Waluta: ", currencyRate);
+    // console.warn("dieta: ", dietValue);
+    // console.warn("Z po przeliczeniu: ", cashAbroat);
+
+    // let cashAbroatToPLN = cashAbroat * currencyRate;
+    // let cashAboratRounded = cashAbroatToPLN.toFixed(2);
+    // let sumInPLN = (plnDietPL + cashAbroatToPLN).toFixed(2);
+    // let resPLN = sumInPLN;
+    // console.log("Wynik sumy to: ", sumInPLN, ",typ: ", typeof sumInPLN);
+    // this.setState({
+    //   amountdietPL: plnDietPL,
+    //   amountdietOut: cashAboratRounded,
+    //   amountOtherCurrency: cashAbroat, // calosc bez odliczen
+    //   sumOfDiet: resPLN,
+    // });
+    // console.log(
+    //   "Wynik sumy to: ",
+    //   this.state.sumOfDiet,
+    //   ",typ: ",
+    //   typeof this.state.sumOfDiet
+    // );
   };
 
   calcExpenses = () => {
@@ -472,7 +711,6 @@ export default class Highorder extends Component {
       })
       .then(() => {
         mealsTotalCost =
-          this.state.bid *
           this.state.diet *
           (this.state.breakfastAmount * 0.15 +
             (parseInt(this.state.dinnerAmount) +
@@ -504,9 +742,15 @@ export default class Highorder extends Component {
         console.warn(advanceCost);
       })
       .then(() => {
-        _sumOfDietMinusMeals = (this.state.sumOfDiet - mealsTotalCost).toFixed(
-          2
-        );
+        if (this.state.country.country === "Polska") {
+          console.warn("///////////--To w Polsce-\\\\\\\\\\\\\\\\");
+          _sumOfDietMinusMeals = mealsTotalCost.toFixed(2);
+        } else {
+          console.warn("///////////--To poza Polska-\\\\\\\\\\\\\\\\");
+          // _sumOfDietMinusMeals= ((this.state.amountdietOut-mealsTotalCost)*this.state.bid+this.state.amountdietPL).toFixed(2);
+          _sumOfDietMinusMeals =
+            this.state.amountOtherCurrency - mealsTotalCost;
+        }
         //Łączny koszt delegacji = diety - posiłki + wydatki poza zaliczkami
         _totalExpenses =
           this.state.sumOfDiet -
@@ -578,7 +822,7 @@ export default class Highorder extends Component {
                 <th className="calculator-date-th">Rodzaj wydatku</th>
                 <th className="calculator-date-th">Data</th>
                 <th className="calculator-date-th">Kwota</th>
-                                <th className="calculator-date-th">Typ płatności</th>
+                <th className="calculator-date-th">Typ płatności</th>
                 <th className="calculator-date-th">Usuń</th>
               </tr>
             </thead>
@@ -654,7 +898,9 @@ export default class Highorder extends Component {
                   </tbody>
                 </table>
               </div>
-
+              <button onClick={this.testHandleDiffDateAbroad}>
+                Sprawdz delegacje
+              </button>
               <p>
                 Wybierz kraj delegacji: &nbsp;
                 <select id="selColor" onChange={this.handleChange}>
@@ -748,16 +994,16 @@ export default class Highorder extends Component {
               {testTAble}
               <button onClick={this.showEditor}>Dodaj wydatek</button>
               <div className="expense-input-date">
-              Data kursu waluty:
-              <input
-                type="date"
-                id="start"
-                name="currencyRateDate"
-                min="2012-01-01"
-                max={new Date().toISOString().substr(0, 10)}
-                onChange={this.currencyDateChange}
-                value={this.state.currencyRateDate}
-              />
+                Data kursu waluty:
+                <input
+                  type="date"
+                  id="start"
+                  name="currencyRateDate"
+                  min="2012-01-01"
+                  max={new Date().toISOString().substr(0, 10)}
+                  onChange={this.currencyDateChange}
+                  value={this.state.currencyRateDate}
+                />
               </div>
             </section>
             <section className="section-style">
@@ -774,7 +1020,7 @@ export default class Highorder extends Component {
               />
             </section>
             <h3>Drukuj rozliczenie do PDF</h3>
-            <button>Drukuj </button>
+            <button onClick={this.createAndDownloadPdf}>Download PDF</button>
             <br />
           </div>
           <ExpenseEditor
@@ -782,6 +1028,14 @@ export default class Highorder extends Component {
             style={this.state.showStyle}
             hideEditor={this.hideEditor}
           />
+          <div>
+            <p>CO tam mamy?</p>
+
+            <p>Wartość diety w obcym {this.state.amountOtherCurrencyN}</p>
+            <p>Wartość diety w PLN {this.state.sumOfDiet}</p>
+            <p>Wartość diety w PLN {this.state.sumOfDietMinusMeals}</p>
+            <p></p>
+          </div>
         </div>
       );
     }
@@ -802,12 +1056,3 @@ const styleButton2 = {
   //visibility: "visible",
   maxHeight: "200px",
 };
-
-function calculateFullDays(dateStart, dateStop, timeStart, timeStop) {
-  let _date1 = new Date(dateStart + timeStart);
-  let _date2 = new Date(dateStop + timeStop);
-  let _diffValue = _date2.getTime() - _date1.getTime();
-  let diff = (_diffValue / (1000 * 3600 * 24)).toFixed(2);
-  //console.warn("Procent dnia spędzony w delegacji: ", diff);
-  return parseFloat(diff);
-}
