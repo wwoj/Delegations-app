@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "75fecb0398e8437e09cc4f9b80b764ac",
+    "revision": "deb1647769600cca1d3f96a718f6ed81",
     "url": "/Delegations-app/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Delegations-app/static/css/2.af3c1da9.chunk.css"
   },
   {
-    "revision": "64f8f4e9433f141a20fa",
-    "url": "/Delegations-app/static/css/main.9b5188ed.chunk.css"
+    "revision": "59f9644963c3a8a8e2dd",
+    "url": "/Delegations-app/static/css/main.9a0b8fc7.chunk.css"
   },
   {
     "revision": "1b4661aaea0b0cbb440c",
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Delegations-app/static/js/2.9b7903de.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "64f8f4e9433f141a20fa",
+    "revision": "59f9644963c3a8a8e2dd",
     "url": "/Delegations-app/static/js/main.5c90b18c.chunk.js"
   },
   {
