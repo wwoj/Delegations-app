@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/Delegations-app/static/css/main.9a0b8fc7.chunk.css",
-    "main.js": "/Delegations-app/static/js/main.5c90b18c.chunk.js",
-    "main.js.map": "/Delegations-app/static/js/main.5c90b18c.chunk.js.map",
+    "main.css": "/Delegations-app/static/css/main.4a24a2aa.chunk.css",
+    "main.js": "/Delegations-app/static/js/main.2ef3c6f1.chunk.js",
+    "main.js.map": "/Delegations-app/static/js/main.2ef3c6f1.chunk.js.map",
     "runtime-main.js": "/Delegations-app/static/js/runtime-main.c91a055c.js",
     "runtime-main.js.map": "/Delegations-app/static/js/runtime-main.c91a055c.js.map",
     "static/css/2.af3c1da9.chunk.css": "/Delegations-app/static/css/2.af3c1da9.chunk.css",
-    "static/js/2.9b7903de.chunk.js": "/Delegations-app/static/js/2.9b7903de.chunk.js",
-    "static/js/2.9b7903de.chunk.js.map": "/Delegations-app/static/js/2.9b7903de.chunk.js.map",
+    "static/js/2.9ca01aa0.chunk.js": "/Delegations-app/static/js/2.9ca01aa0.chunk.js",
+    "static/js/2.9ca01aa0.chunk.js.map": "/Delegations-app/static/js/2.9ca01aa0.chunk.js.map",
     "index.html": "/Delegations-app/index.html",
-    "precache-manifest.3b3f482601433fc752dfedf9284d9b85.js": "/Delegations-app/precache-manifest.3b3f482601433fc752dfedf9284d9b85.js",
+    "precache-manifest.696c850df4671d139bc4e421b37c378c.js": "/Delegations-app/precache-manifest.696c850df4671d139bc4e421b37c378c.js",
     "service-worker.js": "/Delegations-app/service-worker.js",
     "static/css/2.af3c1da9.chunk.css.map": "/Delegations-app/static/css/2.af3c1da9.chunk.css.map",
-    "static/css/main.9a0b8fc7.chunk.css.map": "/Delegations-app/static/css/main.9a0b8fc7.chunk.css.map",
-    "static/js/2.9b7903de.chunk.js.LICENSE.txt": "/Delegations-app/static/js/2.9b7903de.chunk.js.LICENSE.txt",
+    "static/css/main.4a24a2aa.chunk.css.map": "/Delegations-app/static/css/main.4a24a2aa.chunk.css.map",
+    "static/js/2.9ca01aa0.chunk.js.LICENSE.txt": "/Delegations-app/static/js/2.9ca01aa0.chunk.js.LICENSE.txt",
     "static/media/Logo_1.png": "/Delegations-app/static/media/Logo_1.1361eaff.png",
     "static/media/Logo_2.png": "/Delegations-app/static/media/Logo_2.af1e4286.png",
     "static/media/App.css": "/Delegations-app/static/media/background-4.f8673428.jpg",
@@ -23,8 +23,8 @@
   "entrypoints": [
     "static/js/runtime-main.c91a055c.js",
     "static/css/2.af3c1da9.chunk.css",
-    "static/js/2.9b7903de.chunk.js",
-    "static/css/main.9a0b8fc7.chunk.css",
-    "static/js/main.5c90b18c.chunk.js"
+    "static/js/2.9ca01aa0.chunk.js",
+    "static/css/main.4a24a2aa.chunk.css",
+    "static/js/main.2ef3c6f1.chunk.js"
   ]
 }
